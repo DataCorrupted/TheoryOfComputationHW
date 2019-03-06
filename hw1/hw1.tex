@@ -54,6 +54,7 @@
     \exitProblemHeader{homeworkProblemCounter}
 }
 
+
 \newenvironment{solution}{
     \subsection{Solution}
 }
@@ -96,6 +97,27 @@ Let $A$ be the set of all strings where there are no consecutive $\mathsf{0}$'s.
 \end{enumerate}
 
 \begin{solution}
+\subsubsection{a)}
+\subsubsection{b)}
+	\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto]
+		\node[state, initial, accepting] 	(q_0) 					{$q_0$};
+		\node[state, accepting] 			(q_1) 	[right=of q_0] 	{$q_1$};
+		\path[->]
+			(q_0) 	edge 	[loop above] 	node 	{1} 	()
+					edge 	[bend left]		node 	{0} 	(q_1)
+			(q_1) 	edge 	[bend left]		node 	{1} 	(q_0);
+	\end{tikzpicture}
+\subsubsection{c)}
+	\[
+		L = 1^*(01^+)^*
+	\]
+\subsubsection{d)}
+	$$ G = (\mathcal{N}, \Sigma, \mathcal{P}, \mathcal{S}) \texttt{ s.t. } \mathcal{N}=\{\mathcal{S}, A, B\}, \Sigma = \{0, 1\}, \mathcal{P} \texttt{ consists of the following rules: } $$
+	\begin{equation*}\begin{aligned}
+		& \mathcal{S} \rightarrow AB \\
+		& A \rightarrow 1A | \epsilon \\
+		& B \rightarrow 01A | \epsilon
+	\end{aligned}\end{equation*}
 \end{solution}
 
 \end{homeworkProblem}
@@ -106,6 +128,13 @@ Let $B$ be the set of all strings with even length that contain at least one $\m
     \item Show that $B$ is not regular.
     \item Show that $B$ is context free.
 \end{enumerate}
+\begin{solution}
+\subsubsection{a)}
+	\begin{proof}
+		Let's proof by contradiction: Suppose $B$ is regular, is must satisfy pumping lemma.
+	\end{proof}
+\subsubsection{b)}
+\end{solution}
 \end{homeworkProblem}
 
 \begin{homeworkProblem}
