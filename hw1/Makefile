@@ -5,10 +5,10 @@ target = hw1
 
 .PHONY : clean all
 
-all : clean $(patsubst %,%.pdf,$(target))
+all : $(patsubst %,%.pdf,$(target)) clean
 
 clean :
-	for i in aux log bbl blg bcf out run.xml pdf; do \
+	for i in aux log bbl blg bcf out run.xml; do \
 		rm -f $(patsubst %,%.$$i,$(target)); \
 	done
 	-rm -f *~

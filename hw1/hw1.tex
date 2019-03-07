@@ -131,7 +131,18 @@ Let $B$ be the set of all strings with even length that contain at least one $\m
 \begin{solution}
 \subsubsection{a)}
 	\begin{proof}
-		Let's proof by contradiction: Suppose $B$ is regular, is must satisfy pumping lemma.
+		Let's proof by contradiction: Suppose $B$ is regular, is must satisfy pumping lemma, then $\exists p \ge 1$ \\
+		Now consider string $0^{2p-1}10^{2p} \in B$. \\
+		To satisify condition 3: $|xy| \le q$, it is safe to say that $x=0^s$, $y=0^t$ and $t > 0$ and $s + t \le p$. \\
+		Then $\forall i$, $xy^i=0^{s+ti}$, $xy^iz = 0^{s+ti+(2p-1-s-t)}10^{2p}$. \\
+		To fail condition 1, we can have $xy^i$ long enough to fail condition "at lease one $\mathsf{1}$ in the first half" and formulate the following equation:
+		\begin{equation*}\begin{aligned}
+			 |xy^i| &\ge \frac{1}{2}(|xy^iz|) \\
+			 s + it &\ge \frac{1}{2}(s + ti + 2p-1-s-t + 1 + 2p) \\
+			 i 		&\ge \frac{1}{t}(4p-2s-t) > 1
+		\end{aligned}\end{equation*}
+		Therefore, $\forall i \ge \frac{1}{t}(4p-2s-t)$, condition 1 cannot stand, this contradicts to pumping lemma which claims that $\forall i$, condition 1 stand. \\
+		Therefore, we  claim that $B$ is not regular.
 	\end{proof}
 \subsubsection{b)}
 \end{solution}
@@ -144,6 +155,20 @@ Show that the following languages are not regular. B refers to the language in P
     \item $D = \{w \mid w \text{ has even length but } w \notin B\}$.
 \end{enumerate}
 \end{homeworkProblem}
+\begin{solution}
+\subsubsection{b)}
+	\begin{proof}
+		Let's rephrase $D$ first. $D = \{lr | l=0^k, r = \Sigma^k\}$, that is to say, $\forall s \in D$, there is no $\mathsf{1}$ in the fist half $s$
+		\\
+		We would be proofing that $D$ is not regular by using Myhill-Nerode Theorem. \\
+		Consider an infinite array of strings: $s_k = 0^k1, k = 1, 2, 3, \cdots$, we would be proving that they are not equivalent to each other w.s.t. $\~_L$ \\
+		\\
+		$\forall i \ne j$, without loss of generation, let's assume $i > j$. \\
+		Then we can construct a $u = 1^j$ s.t. $s_ju \in D$ yet $s_iu \notin D$ \\
+		\\
+		Therefore, we proved that $D$ is not regular by proving that $D$ has a equivalent class that has infinite size.
+	\end{proof}
+\end{solution}
 
 \begin{homeworkProblem}
 For any string $w = w_1 w_2 \dotso w_n$, the \emph{reverse} of $w$, written as $w^\mathcal{R}$, is the string $w$ in reverse order, $w_n \dotso w_2 w_1$. For any language $A$, let $A^\mathcal{R} = \{w^\mathcal{R} \mid w \in A\}$. Show that if $A$ is regular, so is $A^\mathcal{R}$, i.e., regular languages are closed under reversal.
@@ -154,6 +179,10 @@ Consider the following $\mathsf{CFG}\ G$:
 $$S \to \mathsf{0} S \mathsf{1} \mid \mathsf{00} S \mathsf{1} \mid \varepsilon$$
 Describe $L(G)$ and show that $G$ is ambiguous. Give an unambiguous grammar $H$ where $L(H) = L(G)$ and sketch a proof that $H$ is unambiguous.
 \end{homeworkProblem}
+\begin{solution}
+\subsubsection{a)}
+	$$L(G) = \{0^i1^j | i=x+y, j=x+2y\}$$
+\end{solution}
 
 \begin{homeworkProblem}
 Let $E = \{rst \mid r, t \in \mathsf{0}^* \text{ and } s \in \mathsf{0}^* \mathsf{1} \mathsf{0}^* \text{ where } |r| = |s| = |t|\}$. Show that $E$ is context free in two ways:
