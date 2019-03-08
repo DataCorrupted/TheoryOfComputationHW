@@ -1,15 +1,18 @@
-# You may override this variable from the command line. E.g.:
-# make target=foo
-# make clean target=foo
-target = hw1
+ifeq ($(OS),Windows_NT)
+	PDFVIEWER=acrobat
+else
+	PDFVIEWER=xdg-open
+endif
+
+TARGET = hw1
 
 .PHONY : clean all
 
-all : $(patsubst %,%.pdf,$(target)) clean
+all : $(patsubst %,%.pdf,$(TARGET)) clean
 
 clean :
 	for i in aux log bbl blg bcf out run.xml; do \
-		rm -f $(patsubst %,%.$$i,$(target)); \
+		rm -f $(patsubst %,%.$$i,$(TARGET)); \
 	done
 	-rm -f *~
 
@@ -17,4 +20,4 @@ clean :
 %.pdf : %.tex
 	$(eval basename = $(patsubst %.tex,%,$<))
 	xelatex $(basename)
-	acrobat $(target).pdf &
+	$(PDFVIEWER) $(TARGET).pdf &
