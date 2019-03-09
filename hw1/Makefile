@@ -1,14 +1,14 @@
 ifeq ($(OS),Windows_NT)
-	PDFVIEWER=acrobat
+	PDFVIEWER=chrome
 else
 	PDFVIEWER=xdg-open
 endif
 
 TARGET = hw1
 
-.PHONY : clean all
+.PHONY : clean all open
 
-all : $(patsubst %,%.pdf,$(TARGET)) clean
+all : $(patsubst %,%.pdf,$(TARGET)) clean open
 
 clean :
 	for i in aux log bbl blg bcf out run.xml; do \
@@ -20,4 +20,6 @@ clean :
 %.pdf : %.tex
 	$(eval basename = $(patsubst %.tex,%,$<))
 	xelatex $(basename)
-	$(PDFVIEWER) $(TARGET).pdf &
+
+open : $(TARGET).pdf
+	$(PDFVIEWER) $(shell pwd)/$(TARGET).pdf &

@@ -63,8 +63,8 @@
 \newcommand{\hmwkDueDate}{Sunday, March 17, 2019 at 11:59pm}
 \newcommand{\hmwkClass}{CS244 Theory of Computation}
 \newcommand{\hmwkClassInstructor}{Fu Song}
-\newcommand{\hmwkAuthorName}{Name}
-\newcommand{\hmwkAuthorID}{ID}
+\newcommand{\hmwkAuthorName}{Yuyang(Peter) Rong}
+\newcommand{\hmwkAuthorID}{69850764}
 
 \title{
     \vspace{-0.4in}
@@ -145,6 +145,16 @@ Let $B$ be the set of all strings with even length that contain at least one $\m
 		Therefore, we  claim that $B$ is not regular.
 	\end{proof}
 \subsubsection{b)}
+	\begin{proof}
+		We can proof that $B$ is context free by constructing a CFG that accepts $B$. Now, consider 
+		$$(\mathcal{N}, \Sigma, \mathcal{P}, \mathcal{S})$$
+		$$\mathcal{N} = \{\mathcal{S}, \texttt{Any}\}$$
+		Now we can descirbe $\mathcal{P}$ as following:
+		\begin{equation*}\begin{aligned}
+			& \mathcal{S} \rightarrow 1 \texttt{Any} 0 | 1 \texttt{Any} 1 | 0\mathcal{S}0 | 0\mathcal{S}1\\
+			& \texttt{Any} \rightarrow 1 \texttt{Any} 0 | 1 \texttt{Any} 1 | 0 \texttt{Any} 0 | 0 \texttt{Any} 1 |\epsilon
+	\end{aligned}\end{equation*}
+	\end{proof}
 \end{solution}
 \end{homeworkProblem}
 
@@ -156,6 +166,7 @@ Show that the following languages are not regular. B refers to the language in P
 \end{enumerate}
 \end{homeworkProblem}
 \begin{solution}
+\subsubsection{a)}
 \subsubsection{b)}
 	\begin{proof}
 		Let's rephrase $D$ first. $D = \{lr | l=0^k, r = \Sigma^k\}$, that is to say, $\forall s \in D$, there is no $\mathsf{1}$ in the fist half $s$
@@ -182,6 +193,16 @@ Describe $L(G)$ and show that $G$ is ambiguous. Give an unambiguous grammar $H$ 
 \begin{solution}
 \subsubsection{a)}
 	$$L(G) = \{0^i1^j | i=x+y, j=x+2y\}$$
+\subsubsection{b)}
+	%\begin{comment}
+	Consider Grammar $H = (\mathcal{N}, \Sigma, \mathcal{P}, \mathcal{S})$
+	$$\mathcal{N} = \{\mathcal{S}, \texttt{Pair}, \texttt{Zeros}\}$$
+	Now we can descirbe $\mathcal{P}$ as following:
+	\begin{equation*}\begin{aligned}
+		& \mathcal{S} \rightarrow \texttt{Zeros}\texttt{Pair} | \epsilon \\
+		& \texttt{Pair} \rightarrow 0 \texttt{Pair} 1
+	\end{aligned}\end{equation*}
+	%\end{comment}
 \end{solution}
 
 \begin{homeworkProblem}
