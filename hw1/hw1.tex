@@ -63,7 +63,7 @@
 \newcommand{\hmwkDueDate}{Sunday, March 17, 2019 at 11:59pm}
 \newcommand{\hmwkClass}{CS244 Theory of Computation}
 \newcommand{\hmwkClassInstructor}{Fu Song}
-\newcommand{\hmwkAuthorName}{Yuyang(Peter) Rong}
+\newcommand{\hmwkAuthorName}{Yuyang Rong}
 \newcommand{\hmwkAuthorID}{69850764}
 
 \title{
@@ -217,8 +217,35 @@ Let $E = \{rst \mid r, t \in \mathsf{0}^* \text{ and } s \in \mathsf{0}^* \maths
 Let $F = \{rst \mid r, s, t \in \mathsf{0}^* \mathsf{1} \mathsf{0}^* \text{ where } |r| = |s| = |t|\}$.
 \begin{enumerate}[(a)]
     \item Show that $F$ is not context free.
-    \item Is $D \cup (\Sigma \Sigma \Sigma)^*$ context free? Prove your answer.
-    \item Is $D \cup \Sigma (\Sigma \Sigma \Sigma)^*$ context free? Prove your answer.
+    \item Is $F \cup (\Sigma \Sigma \Sigma)^*$ context free? Prove your answer.
+    \item Is $F \cup \Sigma (\Sigma \Sigma \Sigma)^*$ context free? Prove your answer.
 \end{enumerate}
 \end{homeworkProblem}
+\subsubsection{a)}
+	\begin{proof}
+		We would be showing that $F$ is not context free using contradiction. \\
+		Suppose $F$ is context free, $F$ satisfies pumping lemma. \\
+		Then consider string: $uvwxy = 0^{p}110^{p}10^{p}$ \\
+		\\
+		Condition1: $1 \in v \texttt{ or } 1 \in x$. \\
+		In this case $\forall i > 2, uv^iwx^iy \notin F$, as $\forall s \in F$, only 3 $1$s will be present. \\
+		\\
+		Condition2: $1 \notin v \texttt{ and } 1 \notin x$, i.e. $v = 0^a, x = 0^b$ \\
+		In this case, $v$ must be a substring of $r$ and $x$ a substring of $s$. Or $v$ substring $s$ and $x$ substring $y$. (If, for eaxmple, part of $v$ is inside $r$ and part of it inside $s$, then it must have $1 \in v$, contradict.) Also notice that since $|vwx| \le p$, it is impossible for $v$ substring $r$ while $x$ substring $t$.\\
+		Now without loss of generality let's assume $v$ substring $r$ and $x$ substring $t$. Then consider string $uv^iwx^iy$. \\
+		This string gives the following relations:
+		\begin{equation*}\begin{aligned}
+			& |r| = p+1+a(i-1) \\
+			& |s| = p+1+b(i-1) \\
+			& |t| = p+1
+		\end{aligned}\end{equation*}
+		It is easy to tell that $|r|$, $|s|$, and $|t|$ is not equal anymore.
+		Therefore $uv^iwx^iy \notin F$. \\
+		\\
+		Therefore we have prove that for string $0^{p}110^{p}10^{p}$, there is no partition that satisfies pumping lemma, which implies $F$ is not context free.
+
+	\end{proof}
+
+\subsubsection{b)}
+\subsubsection{c)}
 \end{document}
