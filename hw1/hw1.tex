@@ -98,7 +98,9 @@ Let $A$ be the set of all strings where there are no consecutive $\mathsf{0}$'s.
 
 \begin{solution}
 \subsubsection{a)}
+	Since DFA is a subset of NFA, we would skip NFA part and draw a DFA as respond to both a) and b).
 \subsubsection{b)}
+	\begin{center}
 	\begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto]
 		\node[state, initial, accepting] 	(q_0) 					{$q_0$};
 		\node[state, accepting] 			(q_1) 	[right=of q_0] 	{$q_1$};
@@ -107,6 +109,7 @@ Let $A$ be the set of all strings where there are no consecutive $\mathsf{0}$'s.
 					edge 	[bend left]		node 	{0} 	(q_1)
 			(q_1) 	edge 	[bend left]		node 	{1} 	(q_0);
 	\end{tikzpicture}
+	\end{center}
 \subsubsection{c)}
 	\[
 		L = 1^*(01^+)^*
@@ -135,7 +138,7 @@ Let $B$ be the set of all strings with even length that contain at least one $\m
 		Now consider string $0^{2p-1}10^{2p} \in B$. \\
 		To satisify condition 3: $|xy| \le q$, it is safe to say that $x=0^s$, $y=0^t$ and $t > 0$ and $s + t \le p$. \\
 		Then $\forall i$, $xy^i=0^{s+ti}$, $xy^iz = 0^{s+ti+(2p-1-s-t)}10^{2p}$. \\
-		To fail condition 1, we can have $xy^i$ long enough to fail condition "at lease one $\mathsf{1}$ in the first half" and formulate the following equation:
+		To fail condition 1, we can have $xy^i$ long enough to fail condition ``at least one $\mathsf{1}$ in the first half'' and formulate the following equation:
 		\begin{equation*}\begin{aligned}
 			 |xy^i| &\ge \frac{1}{2}(|xy^iz|) \\
 			 s + it &\ge \frac{1}{2}(s + ti + 2p-1-s-t + 1 + 2p) \\
@@ -184,6 +187,17 @@ Show that the following languages are not regular. B refers to the language in P
 \begin{homeworkProblem}
 For any string $w = w_1 w_2 \dotso w_n$, the \emph{reverse} of $w$, written as $w^\mathcal{R}$, is the string $w$ in reverse order, $w_n \dotso w_2 w_1$. For any language $A$, let $A^\mathcal{R} = \{w^\mathcal{R} \mid w \in A\}$. Show that if $A$ is regular, so is $A^\mathcal{R}$, i.e., regular languages are closed under reversal.
 \end{homeworkProblem}
+\begin{proof}
+	We would be proving by constructing an NFA that accepts $A^\mathcal{R}$. \\
+	\\
+	Since $A$ is regular, there must be a DFA $(Q, \Sigma, \delta, q_0, F)$ that accepts $A$.
+	To accept $A^\mathcal{R}$, we reverse the original DFA and construct the following:
+	$$(Q\cup\{q_0'\}, \Sigma, \delta', q_0', q_0)$$
+	where we have $q_0'$ as start state, the original $q_0$ is now accept state. \\
+	We also change the definition of $\delta'$:
+	$$\forall q \in Q, \alpha \in \Sigma, \delta(q, \alpha) = \{q_{next}\}\texttt{, we define } \delta'(q_{next}, \alpha) = \{q\} $$
+	$$\texttt{Also, } \delta'(q_0', \epsilon) = F$$
+\end{proof}
 
 \begin{homeworkProblem}
 Consider the following $\mathsf{CFG}\ G$:
