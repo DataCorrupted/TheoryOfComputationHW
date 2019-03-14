@@ -6,6 +6,7 @@
 \usepackage{amsthm}
 \usepackage{tikz}
 \usepackage{enumerate}
+\usepackage{comment}
 
 \usetikzlibrary{automata, positioning}
 
@@ -191,11 +192,11 @@ For any string $w = w_1 w_2 \dotso w_n$, the \emph{reverse} of $w$, written as $
 	We would be proving by constructing an NFA that accepts $A^\mathcal{R}$. \\
 	\\
 	Since $A$ is regular, there must be a DFA $(Q, \Sigma, \delta, q_0, F)$ that accepts $A$.
-	To accept $A^\mathcal{R}$, we reverse the original DFA and construct the following:
+	To accept $A^\mathcal{R}$, we reverse the original DFA and construct the following NFA:
 	$$(Q\cup\{q_0'\}, \Sigma, \delta', q_0', q_0)$$
 	where we have $q_0'$ as start state, the original $q_0$ is now accept state. \\
 	We also change the definition of $\delta'$:
-	$$\forall q \in Q, \alpha \in \Sigma, \delta(q, \alpha) = \{q_{next}\}\texttt{, we define } \delta'(q_{next}, \alpha) = \{q\} $$
+	$$\forall q \in Q, \alpha \in \Sigma, \delta(q, \alpha) = q_{next}\texttt{, we define } \delta'(q_{next}, \alpha) = \{q\} $$
 	$$\texttt{Also, } \delta'(q_0', \epsilon) = F$$
 \end{proof}
 
@@ -208,15 +209,13 @@ Describe $L(G)$ and show that $G$ is ambiguous. Give an unambiguous grammar $H$ 
 \subsubsection{a)}
 	$$L(G) = \{0^i1^j | i=x+y, j=x+2y\}$$
 \subsubsection{b)}
-	%\begin{comment}
-	Consider Grammar $H = (\mathcal{N}, \Sigma, \mathcal{P}, \mathcal{S})$
-	$$\mathcal{N} = \{\mathcal{S}, \texttt{Pair}, \texttt{Zeros}\}$$
+	Consider Grammar $H = (\mathcal{N}, \Sigma, \mathcal{P}, \mathcal{S})$, $\mathcal{N} = \{\mathcal{S}, \texttt{M}, \texttt{U}\}$
 	Now we can descirbe $\mathcal{P}$ as following:
 	\begin{equation*}\begin{aligned}
-		& \mathcal{S} \rightarrow \texttt{Zeros}\texttt{Pair} | \epsilon \\
-		& \texttt{Pair} \rightarrow 0 \texttt{Pair} 1
+		& \mathcal{S} \rightarrow \texttt{M} | \texttt{U} \\
+		& \texttt{M} \rightarrow 0 \texttt{M} 1 | \epsilon \\
+		& \texttt{U} \rightarrow 00\texttt{U}1 | 00\texttt{M}1
 	\end{aligned}\end{equation*}
-	%\end{comment}
 \end{solution}
 
 \begin{homeworkProblem}
@@ -226,6 +225,26 @@ Let $E = \{rst \mid r, t \in \mathsf{0}^* \text{ and } s \in \mathsf{0}^* \maths
     \item by giving a $\mathsf{PDA}$ that recognizes $E$.
 \end{enumerate}
 \end{homeworkProblem}
+\begin{solution}
+\subsubsection{a)}
+	Consider grammar $G=(\mathcal{N}, \Sigma, \mathcal{P}, \mathcal{S})$, $\mathcal{N} = \{\mathcal{S}, L, R\}$
+	Now we can descirbe $\mathcal{P}$ as following:
+	\begin{equation*}\begin{aligned}
+		& \mathcal{S} \rightarrow L \\
+		& L \rightarrow 00L0 | R \\
+		& R \rightarrow 0R00 | 010
+	\end{aligned}\end{equation*}
+\subsubsection{b)}
+	Consider $M=(\{q\}, \Sigma, \Sigma\cup \mathcal{N}, \delta, q, \mathcal{S}, \emptyset)$, we define $\delta$ as follow:
+	\begin{equation*}\begin{aligned}
+		& \delta(q, \epsilon, S) =  \{(q, L)\} \\
+		& \delta(q, \epsilon, L) = \{(q, 00L0), (q, R)\} \\
+		& \delta(q, \epsilon, R) = \{(q, 0R00), (q, 010)\} \\
+		& \delta(q, 0, 0) = \{(q, \epsilon)\} \\
+		& \delta(q, 1, 1) = \{(q, \epsilon)\}
+	\end{aligned}\end{equation*}	
+
+\end{solution}
 
 \begin{homeworkProblem}
 Let $F = \{rst \mid r, s, t \in \mathsf{0}^* \mathsf{1} \mathsf{0}^* \text{ where } |r| = |s| = |t|\}$.
