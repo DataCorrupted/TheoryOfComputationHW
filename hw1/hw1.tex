@@ -171,6 +171,12 @@ Show that the following languages are not regular. B refers to the language in P
 \end{homeworkProblem}
 \begin{solution}
 \subsubsection{a)}
+	\begin{proof}
+		Let's proof by contradiction. \\
+		Suppose C is regular. Then using closure properities we have: \\
+		$$B = C \cap \{w | w \texttt{ has even length}\}$$
+		Since $C$ and $\{w | w \texttt{ has even length}\}$ is regular, this implies that B is regular, which contradicts to the fact that $B$ is not regular.
+	\end{proof}
 \subsubsection{b)}
 	\begin{proof}
 		Let's rephrase $D$ first. $D = \{lr | l=0^k, r = \Sigma^k\}$, that is to say, $\forall s \in D$, there is no $\mathsf{1}$ in the fist half $s$
@@ -227,19 +233,15 @@ Let $E = \{rst \mid r, t \in \mathsf{0}^* \text{ and } s \in \mathsf{0}^* \maths
 \end{homeworkProblem}
 \begin{solution}
 \subsubsection{a)}
-	Consider grammar $G=(\mathcal{N}, \Sigma, \mathcal{P}, \mathcal{S})$, $\mathcal{N} = \{\mathcal{S}, L, R\}$
+	Consider grammar $G=(\mathcal{N}, \Sigma, \mathcal{P}, \mathcal{S})$, $\mathcal{N} = \{\mathcal{S}\}$
 	Now we can descirbe $\mathcal{P}$ as following:
 	\begin{equation*}\begin{aligned}
-		& \mathcal{S} \rightarrow L \\
-		& L \rightarrow 00L0 | R \\
-		& R \rightarrow 0R00 | 010
+		& \mathcal{S} \rightarrow 00S0 | 0S00 | 010 \\
 	\end{aligned}\end{equation*}
 \subsubsection{b)}
 	Consider $M=(\{q\}, \Sigma, \Sigma\cup \mathcal{N}, \delta, q, \mathcal{S}, \emptyset)$, we define $\delta$ as follow:
 	\begin{equation*}\begin{aligned}
-		& \delta(q, \epsilon, S) =  \{(q, L)\} \\
-		& \delta(q, \epsilon, L) = \{(q, 00L0), (q, R)\} \\
-		& \delta(q, \epsilon, R) = \{(q, 0R00), (q, 010)\} \\
+		& \delta(q, \epsilon, S) =  \{(q, 010), (q, 00S0), (q, 0S00)\} \\
 		& \delta(q, 0, 0) = \{(q, \epsilon)\} \\
 		& \delta(q, 1, 1) = \{(q, \epsilon)\}
 	\end{aligned}\end{equation*}	
@@ -316,8 +318,8 @@ Let $F = \{rst \mid r, s, t \in \mathsf{0}^* \mathsf{1} \mathsf{0}^* \text{ wher
 \subsubsection{c)}
 	It is not a context free grammar.
 	\begin{proof}
-		The proof we used above is still valid for language $F \cup \Sigma (\Sigma \Sigma \Sigma)^*$. \\
-		The reason is that, for every partition and their's pumped strings we mentioned above, they still cannot be accepted in our new language. \\
-		All pumped strings have length $3n$, which cannot be accepted by $\Sigma (\Sigma \Sigma \Sigma)^*$, nor by $F$ as we have shown above.
+		We would proof by contradiction: suppose it is CFG. \\
+		Then construct regular language $T = (\Sigma\Sigma\Sigma)^*$, since CFG is closed under intersection with regular language, we have:\\
+		$(F\cup\Sigma(\Sigma\Sigma\Sigma)^*) \cap T = F$ being CFG, which contradicts our conclusion in a).
 	\end{proof}
 \end{document}
