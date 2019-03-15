@@ -260,25 +260,64 @@ Let $F = \{rst \mid r, s, t \in \mathsf{0}^* \mathsf{1} \mathsf{0}^* \text{ wher
 		Suppose $F$ is context free, $F$ satisfies pumping lemma. \\
 		Then consider string: $uvwxy = 0^{p}110^{p}10^{p}$ \\
 		\\
-		Condition1: $1 \in v \texttt{ or } 1 \in x$. \\
-		In this case $\forall i > 2, uv^iwx^iy \notin F$, as $\forall s \in F$, only 3 $1$s will be present. \\
+		\textbf{Condition1}: 
+			$1 \in v \texttt{ or } 1 \in x$. \\
+			In this case $\forall i > 2, uv^iwx^iy \notin F$, as $\forall s \in F$, only 3 $1$s will be present. \\
 		\\
-		Condition2: $1 \notin v \texttt{ and } 1 \notin x$, i.e. $v = 0^a, x = 0^b$ \\
-		In this case, $v$ must be a substring of $r$ and $x$ a substring of $s$. Or $v$ substring $s$ and $x$ substring $y$. (If, for eaxmple, part of $v$ is inside $r$ and part of it inside $s$, then it must have $1 \in v$, contradict.) Also notice that since $|vwx| \le p$, it is impossible for $v$ substring $r$ while $x$ substring $t$.\\
-		Now without loss of generality let's assume $v$ substring $r$ and $x$ substring $t$. Then consider string $uv^iwx^iy$. \\
-		This string gives the following relations:
-		\begin{equation*}\begin{aligned}
-			& |r| = p+1+a(i-1) \\
-			& |s| = p+1+b(i-1) \\
-			& |t| = p+1
-		\end{aligned}\end{equation*}
-		It is easy to tell that $|r|$, $|s|$, and $|t|$ is not equal anymore.
-		Therefore $uv^iwx^iy \notin F$. \\
-		\\
-		Therefore we have prove that for string $0^{p}110^{p}10^{p}$, there is no partition that satisfies pumping lemma, which implies $F$ is not context free.
+		\textbf{Condition2}: 
+			$1 \notin v \texttt{ and } 1 \notin x$, i.e. $v = 0^a, x = 0^b, a+b \equiv 0 (mod 3)$ \\
+			We have to assume that $\exists k > 0, a+b = 3k$, or else the string will not have a total length of $3n$ when pumping. \\	
+			We also point out that $v$ or $x$ cannot have part of it in $r$ and part of it in $s$, or it must contain $1$. \\
+			\\
+			Condition2.1: First let's argue that $v$ substring $s$ and $x$ substring $t$ is impossible\\
+				If $v$ substring $s$ and $x$ substring $t$, consier $\forall a > 0, b>0, i>0$, the string $uv^iwx^iy = 0^p110^{p-a+ia}1p^{p-b+ib}$ \\
+				Now consider the first one third half, aka, its $r$. We can be assured that $$|r| = \frac{3p + 3 + (i-1)(a+b)}{3} = p+1+(i-1)k > 3p+1$$
+				Therefore $r = 0^p110^{(i-1)k-1}$. There are two $1$s in $r$.
+				So we come to the conclusion that $v$ substring $s$ and $x$ substring $t$ is impossible \\ 
+			\\
+			Condition2.2: We also need to proof that $v$ substring $r$ and $x$ substring $t$ is impossible. \\
+			If so, $|vwx| \le p$ cannot be satisfied. It is impossible for $v$ substring $r$ while $x$ substring $t$.\\
+			\\
+			Condition2.3: 
+				$v$ substring $r$ and $x$ substring $t$. \\
+				In this case, we would have: 
+				$$uv^ixy^iz = 0^{p-a+ia}110^{p-b+bi}10^{p} = 0^{p-(i-1)a}110^{p-(i-1)b}10^{p}$$
+				$$|r| = p+1+(i-1)k$$
+				To help with our discussion we further divide the cases based on the relation of $a$ and $b$\\
+			\\
+			Conditition2.3.1 $2a > b \Rightarrow a > k$ \\
+				If $a>k$, we consider when $i > \frac{1}{a-k}$: \\
+				Since $i > \frac{1}{a-k}$, \\
+				we have $p+1+(i-1)k < p+(i-1)a$, further:
+				$r = 0^{p+1+(i-1)k}$, having no $1$ in it. \\
+				This partition is impossible. 
+			\\
+			Conditition2.3.2 $2a < b \Rightarrow a < k$ \\
+				In this case, consider when $i > \frac{1}{k-a} + 1$:
+				Since $i > \frac{1}{k-a} + 1$, \\
+				we have $p+1+(i-1)k > p+2+(i-1)a$, fruther: 
+				$|r| = p+1+(i-1)k \Rightarrow r = 0^{p+(i-1)a}110^{(i-1)(k-a)-1}$.\\
+				This means that there are 2 $1$s in $r$, so it is not possible. \\
+			Conditition2.3.3 $2a = b \Rightarrow a = k$ \\
+				In this case, consider the case when $i = 0$, \\
+				$|r| = p+1-k < p + 1$, $r = 0^{p+1-k}$, which has no $1$ inside, so it is also impossible.
+		\\ \\
+		\textbf{Therefore we have prove that for string $0^{p}110^{p}10^{p}$, there is no partition that satisfies pumping lemma, which implies $F$ is not context free.}
 
 	\end{proof}
 
 \subsubsection{b)}
+	It is a context free grammar.
+	\begin{proof}
+		It is trivial that $F \subset (\Sigma\Sigma\Sigma)^* \Rightarrow F \cup (\Sigma \Sigma \Sigma)^* = (\Sigma \Sigma \Sigma)^*$ \\
+		Therefore, the job become proving $(\Sigma \Sigma \Sigma)^*$ is context free, which again, is trivial.\\
+		Since $(\Sigma \Sigma \Sigma)^*$ is a regular language, it must be context free since regular language is a subset of context free language.
+	\end{proof}
 \subsubsection{c)}
+	It is not a context free grammar.
+	\begin{proof}
+		The proof we used above is still valid for language $F \cup \Sigma (\Sigma \Sigma \Sigma)^*$. \\
+		The reason is that, for every partition and their's pumped strings we mentioned above, they still cannot be accepted in our new language. \\
+		All pumped strings have length $3n$, which cannot be accepted by $\Sigma (\Sigma \Sigma \Sigma)^*$, nor by $F$ as we have shown above.
+	\end{proof}
 \end{document}
