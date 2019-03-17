@@ -271,36 +271,36 @@ Let $F = \{rst \mid r, s, t \in \mathsf{0}^* \mathsf{1} \mathsf{0}^* \text{ wher
 			We have to assume that $\exists k > 0, a+b = 3k$, or else the string will not have a total length of $3n$ when pumping. \\	
 			We also point out that $v$ or $x$ cannot have part of it in $r$ and part of it in $s$, or it must contain $1$. \\
 			\\
-			Condition2.1: First let's argue that $v$ substring $s$ and $x$ substring $t$ is impossible\\
+			\textbf{Condition2.1}: First let's argue that $v$ substring $s$ and $x$ substring $t$ is impossible\\
 				If $v$ substring $s$ and $x$ substring $t$, consier $\forall a > 0, b>0, i>0$, the string $uv^iwx^iy = 0^p110^{p-a+ia}1p^{p-b+ib}$ \\
-				Now consider the first one third half, aka, its $r$. We can be assured that $$|r| = \frac{3p + 3 + (i-1)(a+b)}{3} = p+1+(i-1)k > 3p+1$$
+				Now consider the first one third half, aka, its $r$. We can be assured that $$|r| = \frac{3p + 3 + (i-1)(a+b)}{3} = p+1+(i-1)k > p+1$$
 				Therefore $r = 0^p110^{(i-1)k-1}$. There are two $1$s in $r$.
 				So we come to the conclusion that $v$ substring $s$ and $x$ substring $t$ is impossible \\ 
 			\\
-			Condition2.2: We also need to proof that $v$ substring $r$ and $x$ substring $t$ is impossible. \\
+			\textbf{Condition2.2}: We also need to proof that $v$ substring $r$ and $x$ substring $t$ is impossible. \\
 			If so, $|vwx| \le p$ cannot be satisfied. It is impossible for $v$ substring $r$ while $x$ substring $t$.\\
 			\\
-			Condition2.3: 
+			\textbf{Condition2.3}: 
 				$v$ substring $r$ and $x$ substring $t$. \\
 				In this case, we would have: 
 				$$uv^ixy^iz = 0^{p-a+ia}110^{p-b+bi}10^{p} = 0^{p-(i-1)a}110^{p-(i-1)b}10^{p}$$
 				$$|r| = p+1+(i-1)k$$
 				To help with our discussion we further divide the cases based on the relation of $a$ and $b$\\
 			\\
-			Conditition2.3.1 $2a > b \Rightarrow a > k$ \\
+			\textbf{Conditition2.3.1} $2a > b \Rightarrow a > k$ \\
 				If $a>k$, we consider when $i > \frac{1}{a-k}$: \\
 				Since $i > \frac{1}{a-k}$, \\
 				we have $p+1+(i-1)k < p+(i-1)a$, further:
 				$r = 0^{p+1+(i-1)k}$, having no $1$ in it. \\
 				This partition is impossible. 
 			\\
-			Conditition2.3.2 $2a < b \Rightarrow a < k$ \\
+			\textbf{Conditition2.3.2} $2a < b \Rightarrow a < k$ \\
 				In this case, consider when $i > \frac{1}{k-a} + 1$:
 				Since $i > \frac{1}{k-a} + 1$, \\
 				we have $p+1+(i-1)k > p+2+(i-1)a$, fruther: 
 				$|r| = p+1+(i-1)k \Rightarrow r = 0^{p+(i-1)a}110^{(i-1)(k-a)-1}$.\\
 				This means that there are 2 $1$s in $r$, so it is not possible. \\
-			Conditition2.3.3 $2a = b \Rightarrow a = k$ \\
+			\textbf{Conditition2.3.3} $2a = b \Rightarrow a = k$ \\
 				In this case, consider the case when $i = 0$, \\
 				$|r| = p+1-k < p + 1$, $r = 0^{p+1-k}$, which has no $1$ inside, so it is also impossible.
 		\\ \\
