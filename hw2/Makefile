@@ -1,3 +1,3 @@
-TARGET = hw1
+TARGET = hw2
 
 include ../Makefile
