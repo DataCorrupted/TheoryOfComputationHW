@@ -6,6 +6,7 @@
 \usepackage{amsthm}
 \usepackage{tikz}
 \usepackage{enumerate}
+\usepackage{xspace}
 
 \usetikzlibrary{automata, positioning}
 
@@ -62,12 +63,13 @@
 \newcommand{\hmwkDueDate}{Wednesday, April 24, 2019 at 11:59pm}
 \newcommand{\hmwkClass}{CS244 Theory of Computation}
 \newcommand{\hmwkClassInstructor}{Fu Song}
-\newcommand{\hmwkAuthorName}{Name}
-\newcommand{\hmwkAuthorID}{ID}
+\newcommand{\hmwkAuthorName}{Yuyang Rong}
+\newcommand{\hmwkAuthorID}{69850764}
 
 \newcommand{\CFG}{\mathsf{CFG}}
 \newcommand{\TM}{\mathsf{TM}}
-
+\newcommand{\accept}{\textcolor{blue}{accept}\xspace}
+\newcommand{\reject}{\textcolor{red}{reject}\xspace}
 \title{
     \vspace{-0.4in}
     \textmd{\textbf{\hmwkClass \\ Homework \hmwkNo}} \\
@@ -91,6 +93,25 @@ Let $\TM$ be \textbf{deterministic} Turing machine if not otherwise specified wi
 \begin{homeworkProblem}
 Say that a non-terminal $A$ in $\CFG\ G$ is \emph{\textbf{usable}} if it appears in some derivation of some string $w \in L(G)$. Given a $\CFG\ G$ and a non-terminal $A$, consider the problem of testing whether $A$ is usable. Formulate this problem as a language and show that it is decidable.
 \end{homeworkProblem}
+\begin{solution}
+	\begin{equation}\begin{aligned}
+		CFG_{usable} = 
+			& \{<G, A> | G = (\mathcal{N}, \Sigma, \mathcal{P}, \mathcal{S}) \texttt{ is a } \CFG, A \in \mathcal{P} \\
+			& \texttt{ and } \exists w \in L(G), A \texttt{ is used when accepting } w\}
+	\end{aligned}\end{equation}
+	\begin{proof}
+		Construct a $\TM$ that accepts $<G, A>$ as input and does the following:
+		\begin{enumerate}
+			\item Mark Start symbol $\mathcal{S}$ as \textit{Unsearched}
+			\item Repeat the following: Iterate through all (non-)terminals, for (non-)terminals marked \textit{Unsearched}, call it $T$, until no (non-)terminal is marked \textit{Unsearchd}. Since there are limited 
+			\begin{enumerate}
+				\item mark $T$ as \textit{Searched}
+				\item for each rule $T \rightarrow U_1U_2 \cdots U_k$, mark $U_1, U_2, \cdots, U_k$ \textit{Unsearched}
+			\end{enumerate}
+			\item If $A$ is marked \textit{Searched}, \accept, else \reject.
+		\end{enumerate}
+	\end{proof}
+\end{solution}
 
 \begin{homeworkProblem}
 A \emph{\textbf{queue automaton}} is like a push-down automaton except that the stack is replaced by a queue. A \emph{\textbf{queue}} is a tape allowing symbols to be written only on the left-hand end and read only at the right-hand end. Each write operation (we'll call it a \emph{push}) adds a symbol to the left-hand end of the queue and each read operation (we'll call it a \emph{pull}) reads and removes a symbol at the right-hand end. As with a $\mathsf{PDA}$, the input is placed on a separate read-only input tape, and the head on the input tape can move only from left to right. The input tape contains a cell with a blank symbol following the input, so that the end of the input can be detected. A queue automaton accepts its input by entering a special accept state at any time. Show that a language can be recognized by a deterministic queue automaton iff the language is Turing-recognizable.
@@ -99,11 +120,36 @@ A \emph{\textbf{queue automaton}} is like a push-down automaton except that the 
 \begin{homeworkProblem}
 Show that a language is decidable iff some enumerator enumerates the language in the string order. (\emph{\textbf{String order}} is the standard length-increasing, lexicographic order. See page 14 of the textbook.)
 \end{homeworkProblem}
+\begin{solution}\begin{proof}
+	$\Rightarrow$ For language $L, \exists enumerator E$ that enumerates every string in L in the string order. \\
+	Construct a $\TM$ with input $w$:
+	\begin{enumerate}
+		\item Run $E$ and generate an output, call it $s$.
+		\item Compare the string order between $w$ and $s$ and there are following possible outcomes:
+		\begin{enumerate} 
+			\item $w ==_s s$, \accept;
+			\item $w <_s s$, \reject;
+			\item $w >_s s$, go back to the first step and take another string from $E$ to repeat this process.
+		\end{enumerate}
+	\end{enumerate}
+
+
+	$\Leftarrow$ For language $L$, it is Turing-recognizable and decidable and has a corresponding decider $\TM$ M. \\
+	Construct an enumerator $E$ for $L$, let $s_0, s_1, s_2, \cdots$ be a list of all possible strings in $\Sigma^*$ and it follows \textbf{string order}(This is very important):
+	\begin{enumerate}
+		\item Repeat the following for $i = 0, 1, 2, \cdots$
+		\item Run M on input $s_i$
+		\item If M \accept, print out $s_i$
+	\end{enumerate}
+\end{proof}\end{solution}
 
 \begin{homeworkProblem}
 Let $C$ be a language. Prove that $C$ is Turing-recognizable iff a decidable language $D$ exists such that $C = \{ x \mid \exists y \in \{ 0,1 \}^{\ast} ~ (\langle x,y \rangle \in D) \}$. \\
 (Hint: You must prove both directions of the ``iff''. The ($\leftarrow$) direction is easier. For the ($\rightarrow$) direction, think of $y$ as providing additional information that allows you to confirm when $x \in C$, but without the possibility of looping.)
 \end{homeworkProblem}
+\begin{solution}
+
+\end{solution}
 
 \begin{homeworkProblem}
 Consider the problem of determining whether a single-tape Turing machine ever writes a blank symbol over a nonblank symbol during the course of its computation on any input string. Formulate this problem as a language and show that it is undecidable.
@@ -118,6 +164,29 @@ Let $A$ be a language.
 	\item Show that $A$ is decidable iff $A \leq_\mathrm{m} \mathsf{0}^{\ast} \mathsf{1}^{\ast}$.
 \end{enumerate}
 \end{homeworkProblem}
+\begin{solution}\begin{enumerate}[(a)]
+\item 
+	\begin{proof}
+	$\Rightarrow$ Suppose we have $A \leq_\mathrm{m} A_{\TM}$ \\
+	Since 
+		1) $A_{\TM}$ is Turing-recognizable, 
+		2) when $A \leq_\mathrm{m} B$, if $B$ is Turing-recognizable, then $A$ is too. \\
+	It is trivial that $A$ is Turing-recognizable. \\
+
+	$\Leftarrow$ Suppose $A$ is Turing-recognizable with a $\TM$ M that recognizes $A$ \\
+	Construct the following machine M'(x):
+	\begin{enumerate}
+		\item 
+	\end{enumerate}
+	\end{proof}
+
+\item 
+	\begin{proof}
+	$\Rightarrow$ Suppose  $A \leq_\mathrm{m} \mathsf{0}^{\ast} \mathsf{1}^{\ast}$ \\
+
+	$\Leftarrow$ Suppose $A$ is decidable. \\
+	\end{proof}
+\end{enumerate}\end{solution}
 
 \begin{homeworkProblem}
 \begin{enumerate}[(a)]
