@@ -96,11 +96,11 @@ Say that a non-terminal $A$ in $\CFG\ G$ is \emph{\textbf{usable}} if it appears
 \begin{solution}
 	\begin{equation}\begin{aligned}
 		CFG_{usable} = 
-			& \{<G, A> | G = (\mathcal{N}, \Sigma, \mathcal{P}, \mathcal{S}) \texttt{ is a } \CFG, A \in \mathcal{P} \\
+			& \{\langle G, A\rangle | G = (\mathcal{N}, \Sigma, \mathcal{P}, \mathcal{S}) \texttt{ is a } \CFG, A \in \mathcal{P} \\
 			& \texttt{ and } \exists w \in L(G), A \texttt{ is used when accepting } w\}
 	\end{aligned}\end{equation}
 	\begin{proof}
-		Construct a $\TM$ that accepts $<G, A>$ as input and does the following:
+		Construct a $\TM$ that accepts $\langle G, A\rangle$ as input and does the following:
 		\begin{enumerate}
 			\item Mark Start symbol $\mathcal{S}$ as \textit{Unsearched}
 			\item Repeat the following: Iterate through all (non-)terminals, for (non-)terminals marked \textit{Unsearched}, call it $T$, until no (non-)terminal is marked \textit{Unsearchd}. Since there are limited 
@@ -121,7 +121,7 @@ A \emph{\textbf{queue automaton}} is like a push-down automaton except that the 
 Show that a language is decidable iff some enumerator enumerates the language in the string order. (\emph{\textbf{String order}} is the standard length-increasing, lexicographic order. See page 14 of the textbook.)
 \end{homeworkProblem}
 \begin{solution}\begin{proof}
-	$\Rightarrow$ For language $L, \exists enumerator E$ that enumerates every string in L in the string order. \\
+	$\rightarrow$ For language $L, \exists enumerator E$ that enumerates every string in L in the string order. \\
 	Construct a $\TM$ with input $w$:
 	\begin{enumerate}
 		\item Run $E$ and generate an output, call it $s$.
@@ -134,7 +134,7 @@ Show that a language is decidable iff some enumerator enumerates the language in
 	\end{enumerate}
 
 
-	$\Leftarrow$ For language $L$, it is Turing-recognizable and decidable and has a corresponding decider $\TM$ M. \\
+	$\leftarrow$ For language $L$, it is Turing-recognizable and decidable and has a corresponding decider $\TM$ M. \\
 	Construct an enumerator $E$ for $L$, let $s_0, s_1, s_2, \cdots$ be a list of all possible strings in $\Sigma^*$ and it follows \textbf{string order}(This is very important):
 	\begin{enumerate}
 		\item Repeat the following for $i = 0, 1, 2, \cdots$
@@ -147,14 +147,55 @@ Show that a language is decidable iff some enumerator enumerates the language in
 Let $C$ be a language. Prove that $C$ is Turing-recognizable iff a decidable language $D$ exists such that $C = \{ x \mid \exists y \in \{ 0,1 \}^{\ast} ~ (\langle x,y \rangle \in D) \}$. \\
 (Hint: You must prove both directions of the ``iff''. The ($\leftarrow$) direction is easier. For the ($\rightarrow$) direction, think of $y$ as providing additional information that allows you to confirm when $x \in C$, but without the possibility of looping.)
 \end{homeworkProblem}
-\begin{solution}
+\begin{solution}\begin{proof}
+	$\rightarrow$ If $\exists D being a decidable language \rightarrow C = \{ x \mid \exists y \in \{0, 1 \}^\ast ~ ( \langle x, y \rangle \ in D) \} \rightarrow $ D has a decider $M$ \\
+	We can construct a $\TM$ $M_C$ that accepts $w \in C$: \\
+	Given input $\forall x$:
+	\begin{enumerate}
+		\item Construct an enumerator $E$ that outputs all strings in $\{0, 1 \}^\ast$ in \textbf{string order}.
+		\item Take the next output from $E$, call it $y$
+		\item Run M on input $\langle x, y \rangle$, if M \accept, \accept; else goes to step 2.
+	\end{enumerate}
+	It is guaranteed that any string $x$ \accept by $M_C$ has a pair $y$ such that $\langle x, y \rangle \in D$.
+	Therefore $C$ is recognized by $M_C$ 
 
-\end{solution}
+	$\leftarrow$ If $C$ is Turing-recognizable. \\
+		We construct a $D = \Sigma^*$, which is the universal set, it is regular and therefore always decidable.\\
+		Then $\forall x \in C$, say $y = \epsilon$ we have $ \langle x, y\rangle \in D$ since $D$ contains everything.
+\end{proof}\end{solution}
 
 \begin{homeworkProblem}
 Consider the problem of determining whether a single-tape Turing machine ever writes a blank symbol over a nonblank symbol during the course of its computation on any input string. Formulate this problem as a language and show that it is undecidable.
 \end{homeworkProblem}
-
+\begin{solution}
+	\begin{equation}\begin{aligned}
+		TM_{BLANK} = 
+			& \{ \langle M\rangle \mid \exists w \in \Sigma^* \texttt{ when running } M \texttt{ on input } w \\
+			& \texttt{ a blank symbol is writen over a nonblank }\}
+	\end{aligned}\end{equation}
+	\begin{proof}
+		Suppose we have a $\TM$  $CLEAN$.
+		$CLEAN$ on input x:
+		\begin{enumerate}
+			\item write blank on every nonblank in x
+			\item \accept
+		\end{enumerate}
+		$\forall \TM M$ and $w$ we construct an $M_2$ on input $x$:
+		\begin{enumerate}
+			\item If x is equivalent to $\langle CLEAN \rangle$ then \accept
+			\item Else, run M on w and \accept if M does.
+		\end{enumerate}
+		Then if $w \in L(M)$, $L(M_2) = \Sigma^*$, else $L(M_2) = \{\langle CLEAN \rangle\}$, yet  $\langle CLEAN \rangle \notin TM_{BLANK}$ \\
+		Assume $R$ decides $TM_{BLANK}$, then the following $S$ decides $A_{\TM}$. \\
+		$S$ on input $\langle M, w \rangle$:
+		\begin{enumerate}
+			\item Construct $M_2$ using $M$ and $w$
+			\item Run R on $\langle M_2 \rangle$
+			\item If R \accept, \accept; else \reject
+		\end{enumerate}
+		However, $A_{\TM}$ is not decidable, therefore $TM_{BLANK}$ is undecidable.
+	\end{proof}
+\end{solution}
 %\pagebreak
 
 \begin{homeworkProblem}
@@ -167,24 +208,50 @@ Let $A$ be a language.
 \begin{solution}\begin{enumerate}[(a)]
 \item 
 	\begin{proof}
-	$\Rightarrow$ Suppose we have $A \leq_\mathrm{m} A_{\TM}$ \\
+	$\rightarrow$ Suppose we have $A \leq_\mathrm{m} A_{\TM}$ \\
 	Since 
 		1) $A_{\TM}$ is Turing-recognizable, 
 		2) when $A \leq_\mathrm{m} B$, if $B$ is Turing-recognizable, then $A$ is too. \\
 	It is trivial that $A$ is Turing-recognizable. \\
 
-	$\Leftarrow$ Suppose $A$ is Turing-recognizable with a $\TM$ M that recognizes $A$ \\
-	Construct the following machine M'(x):
+	$\leftarrow$ Suppose $A$ is Turing-recognizable with a $\TM$ M that recognizes $A$ \\
+	Given an input $w$ to $\TM$ M, we construct following machine M':
 	\begin{enumerate}
-		\item 
+		\item run M on input $w$
+		\item if M \accept, then \accept, else loop.
 	\end{enumerate}
+	The output of $F(w)$ would be $\langle M', w\rangle$.
+
+	If $w \in A$ 
+		$\Leftrightarrow$ $M$ \accept $w$ 
+		$\Leftrightarrow$ $M'$ \accept $w$ 
+		$\Leftrightarrow$ $\langle M', w\rangle \in A_{\TM}$ \\
+	Therefore, $A \leq_\mathrm{m} A_{\TM}$
 	\end{proof}
 
 \item 
 	\begin{proof}
-	$\Rightarrow$ Suppose  $A \leq_\mathrm{m} \mathsf{0}^{\ast} \mathsf{1}^{\ast}$ \\
+	To make our life easier let's invent the notation $Bin = \mathsf{0}^{\ast} \mathsf{1}^{\ast}$\\
 
-	$\Leftarrow$ Suppose $A$ is decidable. \\
+	$\rightarrow$ Suppose  $A \leq_\mathrm{m} Bin$ \\
+	Since 
+		1) $Bin$ is Regular language, which must be decidable, 
+		2) when $A \leq_\mathrm{m} B$, if $B$ is decidable, then $A$ is too. \\
+	It is trivial that $A$ is decidable. \\
+
+	$\leftarrow$ Suppose $A$ is decidable with a $\TM$ M that decides $A$. \\
+	Given an input $w$ to $\TM$ M, we construct the following:
+	\begin{enumerate}
+		\item run M on input $w$
+		\item Since M is a decider, it either \accept or \reject
+		\item if \accept, output $01$ else $10$
+	\end{enumerate}
+	The output of $F(w)$ would be either $01$ or $10$.
+	If $w \in A$
+		$\Leftrightarrow$ $M$ \accept $w$
+		$\Leftrightarrow$ $F(w) = 01$
+		$\Leftrightarrow$ $01 \in Bin$ \\
+	Therefore, $A \leq_\mathrm{m} Bin$ 
 	\end{proof}
 \end{enumerate}\end{solution}
 
@@ -195,6 +262,19 @@ Let $A$ be a language.
 	\item (harder) Show that $A_{\TM} \leq_{m} \mathit{FINITE}_{\TM}$ to prove that $\overline{\mathit{FINITE}_{\TM}}$ is not T-recognizable.
 \end{enumerate}
 \end{homeworkProblem}
+\begin{solution}\begin{enumerate}[(a)]
+\item \begin{proof}
+	
+\end{proof}
+
+\item \begin{proof}
+	
+\end{proof}
+
+\item \begin{proof}
+	
+\end{proof}
+\end{enumerate}\end{solution}
 
 \begin{homeworkProblem}
 Define a \emph{\textbf{two headed finite automaton}} (2HFA) to be a deterministic finite automaton that has two read-only heads that each can move independently \emph{from left to right} on the input tape. The transition function $\delta$ of a 2HFA has the form: $\delta: Q \times \Sigma \times \Sigma \rightarrow Q \times \{\text{S,R}\} \times \{\text{S,R}\} $. Thus, at each step, the 2HFA can read the symbols under each of its two heads and move each head independently either right (an R move) or let it stay in place (an S move). We also assume that a 2HFA accepts its input by entering one of its designated accept states, regardless of its head positions. Furthermore, a 2HFA can detect when either of its heads are at the right end of the input tape. For example, a 2HFA can recognize the language $\{ \mathsf{a}^{n} \mathsf{b}^{n} \mathsf{c}^{n} \mid n \geq 1 \}$ as follows:
