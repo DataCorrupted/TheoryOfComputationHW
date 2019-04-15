@@ -96,8 +96,8 @@ Say that a non-terminal $A$ in $\CFG\ G$ is \emph{\textbf{usable}} if it appears
 \begin{solution}
 	\begin{equation}\begin{aligned}
 		CFG_{usable} = 
-			& \{\langle G, A\rangle | G = (\mathcal{N}, \Sigma, \mathcal{P}, \mathcal{S}) \texttt{ is a } \CFG, A \in \mathcal{P} \\
-			& \texttt{ and } \exists w \in L(G), A \texttt{ is used when accepting } w\}
+			& \{\langle G, A\rangle | G = (\mathcal{N}, \Sigma, \mathcal{P}, \mathcal{S}) \text{ is a } \CFG, A \in \mathcal{P} \\
+			& \text{ and } \exists w \in L(G), A \text{ is used when accepting } w\}
 	\end{aligned}\end{equation}
 	\begin{proof}
 		Construct a $\TM$ that accepts $\langle G, A\rangle$ as input and does the following:
@@ -170,8 +170,8 @@ Consider the problem of determining whether a single-tape Turing machine ever wr
 \begin{solution}
 	\begin{equation}\begin{aligned}
 		TM_{BLANK} = 
-			& \{ \langle M\rangle \mid \exists w \in \Sigma^* \texttt{ when running } M \texttt{ on input } w \\
-			& \texttt{ a blank symbol is writen over a nonblank }\}
+			& \{ \langle M\rangle \mid \exists w \in \Sigma^* \text{ when running } M \text{ on input } w \\
+			& \text{ a blank symbol is writen over a nonblank }\}
 	\end{aligned}\end{equation}
 	\begin{proof}
 		Suppose we have a $\TM$  $CLEAN$.
@@ -263,16 +263,41 @@ Let $A$ be a language.
 \end{enumerate}
 \end{homeworkProblem}
 \begin{solution}\begin{enumerate}[(a)]
+\item \begin{proof}\begin{enumerate}[(1)]
+	\item Prove that $\overline{J}$ is not Turing-recognizable \\
+	Consider $A_{\TM}$, let's construct $F_x$, $\forall x$:
+	\begin{itemize}
+		\item output $0x$
+	\end{itemize}
+	It is trivial that $\forall x \in A_{\TM} \Leftrightarrow F_x(x) = 0x \in J$ \\
+	Therefore $A_{\TM} \leq_\mathrm{m} J \Leftrightarrow \overline{A_{\TM}} \leq_\mathrm{m} \overline{J}$ \\
+	Since $\overline{A_{\TM}}$ is not Turing-recognizable, $\overline{J}$ is not neither.
+
+	\item Prove that $J$ is not Turing-recognizable \\
+	Consider $\overline{A_{\TM}}$, let's construct $F_y$, $\forall y$:
+	\begin{itemize}
+		\item output $1y$
+	\end{itemize}
+	It is trivial that $\forall y \in \overline{A_{\TM}} \Leftrightarrow F_y(y) = 1y \in J$	\\
+	Therefore $\overline{A_{\TM}} \leq_\mathrm{m} J$ \\
+	Since $\overline{A_{\TM}}$ is not Turing-recognizable, $J$ is not neither.
+\end{enumerate}\end{proof}
+
 \item \begin{proof}
-	
+	Let's construct an $F$ \\
+	F on input $\langle M, w \rangle$:
+	\begin{enumerate}[1]
+		\item Run $A_{\TM}$ on input $\langle M, w \rangle$
+		\item If \accept, output $\Sigma^*$, else output $\{ w \}$
+	\end{enumerate}
+	Therefore, $\langle M, w \rangle \in A_{\TM} \Rightarrow f(\langle M, w \rangle) = \Sigma^* \in \overline{FINITE_{\TM}}$ \\
+	Also, since the output of F is either infinite or finite, $\Leftarrow$ also stands.
+	Therefore, $A_{\TM} \leq_\mathrm{m} \overline{\mathit{FINITE}_{\TM}} \Leftrightarrow \overline{A_{\TM}} \leq_\mathrm{m} \mathit{FINITE}_{\TM} $. \\
+	Since $\overline{A_{\TM}}$ is not Turing-recognizable, $\mathit{FINITE}_{\TM}$ is not neither.
 \end{proof}
 
 \item \begin{proof}
-	
-\end{proof}
 
-\item \begin{proof}
-	
 \end{proof}
 \end{enumerate}\end{solution}
 
