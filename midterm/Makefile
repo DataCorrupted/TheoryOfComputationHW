@@ -1,0 +1,3 @@
+TARGET = midterm
+
+include ../Makefile
