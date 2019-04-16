@@ -40,19 +40,115 @@
 \author{\hmwkAuthorName}
 \date{}
 
-\setcounter{section}{-1}
+
+\newcommand{\TM}{\mathsf{TM}}
+\newcommand{\ATM}{A_\TM}
+\newcommand{\TR}{Turing-recognizable}
+\newcommand{\De}{Decidable}
+\newcommand{\U}{\Sigma^*}
+\newcommand{\lem}{\leq_\mathrm{m}}
 
 \begin{document}
 
 \maketitle
 \thispagestyle{fancy}
 
-\input{content/0introduction}
-\input{content/1RL_FA}
-\input{content/2CFL_PDA}
-\input{content/3TM}
-\input{content/4Decidability}
-\input{content/5Reducibility}
-\input{content/6Advanced_topics_in_computability_theory}
+\begin{comment}
+\setcounter{section}{-1}
+\section{Introduction}\begin{enumerate}
+	\item Proof ideas are important? Too lazy to list them out...
+\end{enumerate}
+\end{comment}
+
+\section{Regular languages \& finite automata}\begin{enumerate}
+	\item $DFA \equiv NFA \equiv \epsilon-NFA \equiv RE \equiv RLG$
+	\item Pumping Lemma. $L$ is $RE$, $\exists p > 1, \forall s \in L \text{where} |s| \ge p, s = xyz$:
+	\begin{enumerate}
+		\item $\forall i \ge 0, xy^iz \in L$
+		\item $|y| \ge 1$
+		\item $|xy| \le p$
+	\end{enumerate}
+	Take special notes on
+	\begin{enumerate}
+		\item Sometimes it can be \textbf{equal}
+		\item Satisfying this lemma \textbf{does not} mean the the language is RE.
+	\end{enumerate} 
+	\item Myhill-Nerode Theorem. $\forall u, v\in \U$, $u ~_L v \Longleftrightarrow (\forall z \in \U, uz \in L \Leftrightarrow vz \in L)$ \\
+	$$L \text{is regular} \Longleftrightarrow ~_L \text{is finite.} $$
+	\item Closure properties: closed under $L_1 \cup L_2$, $L_1L_2$, $L^*$
+\end{enumerate}
+
+\section{Context free language \& push down automata}\begin{enumerate}
+	\item Chomsky normal form. Everyrule is either $A \rightarrow BC$ or $A \rightarrow a$, only $S$ can be $\epsilon$
+	\item Pumpling lemma. $L$ is $CFG$, $\exists p > 1, \forall s \in L \text{where} |s| \ge p, s = uvwxy$:
+	\begin{enumerate}
+		\item $\forall i \ge 0, uv^iwx^iy \in L$
+		\item $|vx| \ge 1$
+		\item $|vwx| \le p$
+	\end{enumerate}
+	Take special notes on
+	\begin{enumerate}
+		\item Sometimes it can be \textbf{equal}
+		\item Satisfying this lemma \textbf{does not} mean the the language is RE.
+	\end{enumerate}
+	\item Closure properities:
+	\begin{enumerate}
+		\item $L_1 \cup L_2$, $L \cap RE$ closed
+		\item $L_1 \cap L_2$, $\bar{L}$ not closed
+	\end{enumerate}
+	\item Deterministic context free language(DCFL) \& deterministic push down automata(DPDA)
+	\begin{enumerate}
+		\item DCFL is closed under complementation; any CFL whose complement is not CFL is not DCFL
+		\item $A$ is DCFL $\Longleftrightarrow$ $A\dashv$ is DCFL
+	\end{enumerate}
+\end{enumerate}
+
+\section{Turing machine}\begin{enumerate}
+	\item Multitape $\TM$ has an equivalent single-table $\TM$. So is non-deterministic $\TM$
+	\item $A$ is \TR $\Longleftrightarrow \exists$ Enumerator $E$ enumerates it.
+\end{enumerate}
+
+
+\section{Decidability}\begin{enumerate}
+	\item $A_{CFG}$ \De, simulate for $2|w| - 1$ times.
+	\item $\ATM$ is not \De but \TR, $\bar{\ATM}$ is not \TR, proof of $\ATM$ being not \De
+	\begin{enumerate}
+		\item Diag method. $H$ decides $\ATM$, construct $D$ on $\langle M \rangle$:
+		\begin{enumerate}
+			\item Run $H$ on $\langle M, \langle m \rangle \rangle$
+			\item Output the opposite of H.
+		\end{enumerate}
+		\item $\ATM \lem HALT_{\TM}$
+		\item Using Recursion Theorm, construct $B$ on input $w$:
+		\begin{enumerate}
+			\item Obtain $\langle B \rangle$
+			\item Run the decider $R$ of $\ATM$ on $\langle B, w \rangle$
+			\item Output the opposit of R.
+		\end{enumerate}
+	\end{enumerate}
+	\item $A$ \De $\Longleftrightarrow$ $A$ is \TR and $\bar{A}$ is \TR
+	\item $\bar{\ATM} is not \TR$
+\end{enumerate}
+
+
+\section{Reducibility}\begin{enumerate}
+	\item Reduce to $\ATM$: If this is decidable, then $\ATM$ is too.
+	\item Via Computation histories
+	\item Mapping Reducibility: $f: \U \rightarrow \U, \forall w \in \U$, $w \in A \Longleftrightarrow f(w) \in B$
+	\begin{enumerate}
+		\item $A \lem B$.  \\
+			 $B$ is \De $\rightarrow A$ is \De;  \\
+			$A$ is not \De, $\rightarrow B$ is not \De.
+		\item $A \lem B$.  \\
+			 $B$ is \TR $\rightarrow A$ is \TR;  \\
+			$A$ is not \TR, $\rightarrow B$ is not \TR.
+	\end{enumerate}
+\end{enumerate}
+
+
+\section{Advanced topics in computability theory}\begin{enumerate}
+	\item $\langle SELF \rangle$
+	\item Turing Reducibility
+\end{enumerate}
 
 \end{document}
