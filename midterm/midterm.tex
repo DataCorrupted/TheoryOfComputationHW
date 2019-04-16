@@ -1,6 +1,5 @@
 \documentclass{article}
 
-\usepackage{fancyhdr}
 \usepackage{extramarks}
 \usepackage{amsmath}
 \usepackage{amsthm}
@@ -10,34 +9,23 @@
 
 \usetikzlibrary{automata, positioning}
 
-\topmargin=-0.45in
+\topmargin=-0.4in
 \evensidemargin=0in
 \oddsidemargin=0in
 \textwidth=6.5in
 \textheight=9.0in
-\headsep=0.25in
 
 \linespread{1.1}
 
-\pagestyle{fancy}
-\lhead{\hmwkAuthorName}
-\chead{\hmwkClass}
-\lfoot{\lastxmark}
-\cfoot{\thepage}
-
-\renewcommand\headrulewidth{0.4pt}
-\renewcommand\footrulewidth{0.4pt}
-
-\newcommand{\hmwkClass}{CS244 Theory of Computation}
-\newcommand{\hmwkClassInstructor}{Fu Song}
-\newcommand{\hmwkAuthorName}{Yuyang(Peter) Rong}
+\newcommand{\class}{CS244 Theory of Computation}
+\newcommand{\authorName}{Yuyang(Peter) Rong}
 
 \title{
-    \vspace{-0.4in}
-    \textmd{\textbf{\hmwkClass \\ Cheatsheet - Midterm}}\\
+    \vspace{-0.8in}
+    \textmd{\textbf{\class \\ Cheatsheet - Midterm}}\\
 }
 
-\author{\hmwkAuthorName}
+\author{\authorName}
 \date{}
 
 
@@ -51,7 +39,6 @@
 \begin{document}
 
 \maketitle
-\thispagestyle{fancy}
 
 \begin{comment}
 \setcounter{section}{-1}
@@ -59,6 +46,7 @@
 	\item Proof ideas are important? Too lazy to list them out...
 \end{enumerate}
 \end{comment}
+
 
 \section{Regular languages \& finite automata}\begin{enumerate}
 	\item $DFA \equiv NFA \equiv \epsilon-NFA \equiv RE \equiv RLG$
@@ -77,6 +65,7 @@
 	$$L \text{is regular} \Longleftrightarrow ~_L \text{is finite.} $$
 	\item Closure properties: closed under $L_1 \cup L_2$, $L_1L_2$, $L^*$
 \end{enumerate}
+
 
 \section{Context free language \& push down automata}\begin{enumerate}
 	\item Chomsky normal form. Everyrule is either $A \rightarrow BC$ or $A \rightarrow a$, only $S$ can be $\epsilon$
@@ -102,6 +91,7 @@
 		\item $A$ is DCFL $\Longleftrightarrow$ $A\dashv$ is DCFL
 	\end{enumerate}
 \end{enumerate}
+
 
 \section{Turing machine}\begin{enumerate}
 	\item Multitape $\TM$ has an equivalent single-table $\TM$. So is non-deterministic $\TM$
