@@ -61,8 +61,8 @@
 		\item Sometimes it can be \textbf{equal}
 		\item Satisfying this lemma \textbf{does not} mean the the language is RE.
 	\end{enumerate} 
-	\item Myhill-Nerode Theorem. $\forall u, v\in \U$, $u ~_L v \Longleftrightarrow (\forall z \in \U, uz \in L \Leftrightarrow vz \in L)$ \\
-	$$L \text{is regular} \Longleftrightarrow ~_L \text{is finite.} $$
+	\item Myhill-Nerode Theorem. $\forall u, v\in \U$, $u \sim_L v \Longleftrightarrow (\forall z \in \U, uz \in L \Leftrightarrow vz \in L)$ \\
+	$$L \text{ is regular} \Longleftrightarrow \sim_L \text{ is finite.} $$
 	\item Closure properties: closed under $L_1 \cup L_2$, $L_1L_2$, $L^*$
 \end{enumerate}
 
@@ -83,7 +83,7 @@
 	\item Closure properities:
 	\begin{enumerate}
 		\item $L_1 \cup L_2$, $L \cap RE$ closed
-		\item $L_1 \cap L_2$, $\bar{L}$ not closed
+		\item $L_1 \cap L_2$, $\overline{L}$ not closed
 	\end{enumerate}
 	\item Deterministic context free language(DCFL) \& deterministic push down automata(DPDA)
 	\begin{enumerate}
@@ -101,7 +101,7 @@
 
 \section{Decidability}\begin{enumerate}
 	\item $A_{CFG}$ \De, simulate for $2|w| - 1$ times.
-	\item $\ATM$ is not \De but \TR, $\bar{\ATM}$ is not \TR, proof of $\ATM$ being not \De
+	\item $\ATM$ is not \De but \TR, $\overline{\ATM}$ is not \TR, proof of $\ATM$ being not \De
 	\begin{enumerate}
 		\item Diag method. $H$ decides $\ATM$, construct $D$ on $\langle M \rangle$:
 		\begin{enumerate}
@@ -116,8 +116,8 @@
 			\item Output the opposit of R.
 		\end{enumerate}
 	\end{enumerate}
-	\item $A$ \De $\Longleftrightarrow$ $A$ is \TR and $\bar{A}$ is \TR
-	\item $\bar{\ATM} is not \TR$
+	\item $A$ \De $\Longleftrightarrow$ $A$ is \TR and $\overline{A}$ is \TR
+	\item $\overline{\ATM} \text{ is not \TR}$
 \end{enumerate}
 
 
@@ -128,10 +128,10 @@
 	\begin{enumerate}
 		\item $A \lem B$.  \\
 			 $B$ is \De $\rightarrow A$ is \De;  \\
-			$A$ is not \De, $\rightarrow B$ is not \De.
+			$A$ is not \De $\rightarrow B$ is not \De.
 		\item $A \lem B$.  \\
 			 $B$ is \TR $\rightarrow A$ is \TR;  \\
-			$A$ is not \TR, $\rightarrow B$ is not \TR.
+			$A$ is not \TR $\rightarrow B$ is not \TR.
 	\end{enumerate}
 \end{enumerate}
 
