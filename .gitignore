@@ -1,4 +1,3 @@
-*.pdf
-!solution.pdf
+*hw*.pdf
 *.log
 *.aux

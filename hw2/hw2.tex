@@ -100,22 +100,61 @@ Say that a non-terminal $A$ in $\CFG\ G$ is \emph{\textbf{usable}} if it appears
 			& \text{ and } \exists w \in L(G), A \text{ is used when accepting } w\}
 	\end{aligned}\end{equation}
 	\begin{proof}
+		Proof idea:
+		\begin{enumerate}
+			\item 
+				First we have to make sure that there is a path from $S$ to $A$. 
+				In other words, they are in the same connected component.
+			\item 
+				Even they are in the same component, there is a problem that there may not be a rule to use $A$. 
+				Therefore, for each non-terminal, we maintain a finite set $SET$ indicating starting from this non-terminal, ending with a valid string, which non-terminals would be used. 
+				For rules that have to form $B \rightarrow b$, $SET_B = \{B\}$.
+				If a rule cannot derive to a valid string, for example $S \rightarrow SS$, the set would be empty, i.e. $SET_S = \emptyset$.
+		\end{enumerate}
+		Construct $\TM$ LABEL that runs on input $\langle G, \langle R \rightarrow PQ \rangle \rangle$:
+		\begin{enumerate}
+			\item If this rule has label $Unknown$, mark it as $Searching$.
+			\item If all $P$'s derivation rules have label $Unknown$, for each derivation rule, run LABEL on input $\langle G, \langle P \rightarrow S_1S_2 \rangle \rangle$, so does $Q$
+			\item If all $P$'s derivation rules have label $Searching$, make $SET_S = \emptyset$,so does $Q$. If $SET_P = \emptyset$ or $SET_Q = \emptyset$, \reject. 
+			\item $SET_R = SET_P \cup SET_T$, \accept.
+		\end{enumerate}
+
 		Construct a $\TM$ that accepts $\langle G, A\rangle$ as input and does the following:
 		\begin{enumerate}
 			\item Mark Start symbol $\mathcal{S}$ as \textit{Unsearched}
-			\item Repeat the following: Iterate through all (non-)terminals, for (non-)terminals marked \textit{Unsearched}, call it $T$, until no (non-)terminal is marked \textit{Unsearchd}. Since there are limited 
+			\item Repeat the following: Iterate through all terminal/non-terminals, for terminal/non-terminals marked \textit{Unsearched}, call it $T$, until no terminal/non-terminal is marked \textit{Unsearchd}. Since there are limited 
 			\begin{enumerate}
 				\item mark $T$ as \textit{Searched}
 				\item for each rule $T \rightarrow U_1U_2 \cdots U_k$, mark $U_1, U_2, \cdots, U_k$ \textit{Unsearched}
 			\end{enumerate}
-			\item If $A$ is marked \textit{Searched}, \accept, else \reject.
+			\item If $A$ does not get \textit{Searched}, \reject as it is not in the same connected composed with $\mathcal{S}$.
+			\item $\forall \text{ non-terminal } T, SET_T = \emptyset$, $\forall \text{ rules with form } T\rightarrow t, SET_T = \{T\}$
+			\item Label all rules with mark $Unknown$
+			\item For all rules starting with $\mathcal{S}$ that derives more non-terminals, run LEBEL on input $\langle G, \langle \mathcal{S}\rightarrow S_1S_2 \rangle \rangle$
+			\item If $A \in SET_S$, \accept; else \reject.
 		\end{enumerate}
+
 	\end{proof}
 \end{solution}
 
 \begin{homeworkProblem}
 A \emph{\textbf{queue automaton}} is like a push-down automaton except that the stack is replaced by a queue. A \emph{\textbf{queue}} is a tape allowing symbols to be written only on the left-hand end and read only at the right-hand end. Each write operation (we'll call it a \emph{push}) adds a symbol to the left-hand end of the queue and each read operation (we'll call it a \emph{pull}) reads and removes a symbol at the right-hand end. As with a $\mathsf{PDA}$, the input is placed on a separate read-only input tape, and the head on the input tape can move only from left to right. The input tape contains a cell with a blank symbol following the input, so that the end of the input can be detected. A queue automaton accepts its input by entering a special accept state at any time. Show that a language can be recognized by a deterministic queue automaton iff the language is Turing-recognizable.
 \end{homeworkProblem}
+\begin{solution}\begin{proof}
+	Suppose we have a language $A$.
+	$\rightarrow$ If $A$ is Turing-recognizable, $\exists \TM M$  that recognizes $A$.
+
+
+	$\leftarrow$ If $A$ is recognized by a deterministic queue automaton $Q$. We can construct the following $\TM M$ with two tapes: \\
+	On input $w$:
+	\begin{enumerate}
+		\item One tape stores all the input and another does the computation.
+		\item If $Q$ takes a char from input, move the head of the input tape the right.
+		\item If $Q$ push a tape symbol on the tape, so does the computation tape.
+		\item If $Q$ pull a symbol from the tape, the head of the computation tape will shift left until it meets a predefined useless symbol, call it $\#$, then move right and mark that tape symbol as $\#$.
+	\end{enumerate}
+	This way, we used a $\TM$ to simulate a queue automaton. Therefore, if a language is accepted by $Q$, it is Turing-recognizable.
+\end{proof}\end{solution}
 
 \begin{homeworkProblem}
 Show that a language is decidable iff some enumerator enumerates the language in the string order. (\emph{\textbf{String order}} is the standard length-increasing, lexicographic order. See page 14 of the textbook.)
@@ -287,7 +326,7 @@ Let $A$ be a language.
 	Let's construct an $F$ \\
 	F on input $\langle M, w \rangle$:
 	\begin{enumerate}[1]
-		\item Run $A_{\TM}$ on input $\langle M, w \rangle$
+		\item Run $M$ on input $ w $
 		\item If \accept, output $\Sigma^*$, else output $\{ w \}$
 	\end{enumerate}
 	Therefore, $\langle M, w \rangle \in A_{\TM} \Rightarrow f(\langle M, w \rangle) = \Sigma^* \in \overline{FINITE_{\TM}}$ \\
