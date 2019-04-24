@@ -143,7 +143,25 @@ A \emph{\textbf{queue automaton}} is like a push-down automaton except that the 
 \begin{solution}\begin{proof}
 	Suppose we have a language $A$.
 	$\rightarrow$ If $A$ is Turing-recognizable, $\exists \TM M$  that recognizes $A$.
-
+	We are going to prove this by constructing a queue automaton that simulates a truing machine.
+	\begin{enumerate}
+		\item Push starting computing confirguation into queue. Push special notation $\#$ indicating the end of the queue.
+		\item To simulate Left shift of $\TM$
+		\begin{enumerate}
+			\item pull a symbol and then push it in the front until the pulled symbol is different than corresponding place in $\TM$, that means $\TM$ has run into head.
+			\item Then push the head symbol into queue, push what $\TM$ wrote on the symbol.
+			\item Repeat pull and push until pulled symbol is $\#$, push $\#$.
+		\end{enumerate}
+		\item To simulate Right shift of $\TM$
+		\begin{enumerate}
+			\item Pull and push until run into head symbol
+			\item Push whatever $\TM$ wrote on the tape, push head.
+			\item Pull and push until $\#$, push $\#$
+		\end{enumerate}
+		\item If $\TM$ \accept, \accept.
+	\end{enumerate}
+	Then we simulated $\TM$ on a queue automaton.  \\
+	Therefore if a language is Turing recognizable, it is recognized by a deterministic queue automaton.
 
 	$\leftarrow$ If $A$ is recognized by a deterministic queue automaton $Q$. We can construct the following $\TM M$ with two tapes: \\
 	On input $w$:
@@ -350,5 +368,25 @@ Define a \emph{\textbf{two headed finite automaton}} (2HFA) to be a deterministi
 \end{enumerate}
 Let $E_{\text{2HFA}} = \{ \langle B \rangle \mid B \text{ is a 2HFA which recognizes the empty language} \}$. Sketch a proof that $E_{\text{2HFA}}$ is not decidable. (Give enough detail to show how your proof depends on the 2HFA model.)
 \end{homeworkProblem}
+\begin{proof}
+	To reduce this problem to $A_{\TM}$, we want the following relation:
+	$$M \texttt{ accepts } w \Longleftrightarrow L(B) \ne \emptyset$$
+	Therefore we have to construct a 2HFA B using M and w:
+	$B$ on input x:
+	\begin{enumerate}
+		\item breaks x into $C_1\#C_2\# \cdots \#C_n$
+		\item Put one head on the head of $C_1$ and one on $C_2$ and move both forward to check if the computation history is correct, i.e. head only moves by one and nothing else changes.
+		\item Repeat step 2 until there is not history left. This way we can check the continuity of a computation history.
+		\item if there is non-continuious, \reject, else \accept.
+	\end{enumerate}
+	Assume $R$ decides $E_{\text{2HFA}}$, then the following $S$ decides $A_{\TM}$: \\
+	$S$ on input $\langle M, w \rangle$:
+	\begin{enumerate}
+		\item Construct a 2HFA B from M and w
+		\item Run R on input $\langle B \rangle$
+		\item If R \reject($L(B) \ne \emptyset$), \accept; else($L(B) = \emptyset$) \reject.
+	\end{enumerate}
 
+	In the above machines, we reduced $R$, the decider of $E_{\text{2HFA}}$ to $A_{\TM}$, which is known to be non-decidable. Therefore, $E_{\text{2HFA}}$ is not decidable.
+\end{proof}
 \end{document}
