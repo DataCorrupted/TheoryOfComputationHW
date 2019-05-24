@@ -1,0 +1,132 @@
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{tikz}
+\usepackage{enumerate}
+
+\usetikzlibrary{automata, positioning}
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName\ -\ \hmwkAuthorID}
+\chead{\hmwkClass: Homework \hmwkNo}
+\rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+        \setcounter{homeworkProblemCounter}{#1}
+    \fi
+    \section{Problem \arabic{homeworkProblemCounter}}
+    \enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+\newenvironment{solution}{
+    \subsection{Solution}
+}
+
+\newcommand{\hmwkNo}{3}
+\newcommand{\hmwkDueDate}{Wednesday, May 29, 2019 at 11:59pm}
+\newcommand{\hmwkClass}{CS244 Theory of Computation}
+\newcommand{\hmwkClassInstructor}{Fu Song}
+\newcommand{\hmwkAuthorName}{Yuyang Rong}
+\newcommand{\hmwkAuthorID}{69850764}
+
+\title{
+    \vspace{-0.4in}
+    \textmd{\textbf{\hmwkClass \\ Homework \hmwkNo}}\\
+    \normalsize\vspace{0.1in}\small{Due: \hmwkDueDate}\\
+}
+
+\author{\hmwkAuthorName\ -\ \hmwkAuthorID}
+\date{}
+
+\newcommand{\NP}{\mathrm{NP}}
+\renewcommand{\P}{\mathrm{P}}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{fancy}
+
+You may discuss this assignment with other students and work
+on the problems together. However, your write-up should be your own individual work and you should indicate in your submission who you worked with, if applicable. You should use the {\LaTeX} template provided by us to write your solution and submit the generated PDF file into Gradescope.
+
+Note: You only need to submit your solutions to the \textbf{\emph{first three}} problems. The other problems are optional. \\
+
+I worked with: (Name, ID), (Name, ID), \ldots
+
+\begin{homeworkProblem}
+The \textbf{\emph{Kolmogorov complexity}} of a bit string $b$, $K_L(b)$, is the length of the shortest program in language $L$ that outputs $b$ and only $b$. Is $K_L(b)$ computable? Prove your answer.
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+Let $\textit{SHUFFLE} = \{ \langle w, x, y \rangle \mid w = a_1 b_1 \dotso a_k b_k$ for $k \ge 0$ where $x = a_1 a_2 \dotso a_k$ and $y = b_1 b_2 \dotso b_k$, each $a_i, b_i \in \Sigma^* \}$.
+\begin{enumerate}[(a)]
+    \item Show that $\textit{SHUFFLE} \in \NP$.
+    \item Show that $\textit{SHUFFLE} \in \P$.
+\end{enumerate}
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+Let $\textit{SET-SPLITTING} = \{ \langle S, C \rangle \mid S$ is a finite set and $C = \{ C_1, \dotsc, C_k \}$ is a collection of subsets of $S$, where the elements of $S$ can be colored red or blue so every $C_i$ has at least one red element and at least one blue element$ \}$. Show that $\textit{SET-SPLITTING}$ is $\NP$-complete.
+\end{homeworkProblem}
+
+% \begin{homeworkProblem}
+% (Optional) Let $\textit{MODEXP} = \{ \langle a, b, c, p \rangle \mid a, b, c, p$ are positive binary integers such that $a^b \equiv c \pmod{p} \}$. Show that $\textit{MODEXP} \in \P$.
+% \end{homeworkProblem}
+
+% \begin{homeworkProblem}
+% (Optional) Show that if $\P = \NP$, then every language $A \in \P$, except $A = \emptyset$ and $A = \Sigma^*$, is $\NP$-complete.
+% \end{homeworkProblem}
+
+% \begin{homeworkProblem}
+% (Optional) Show that if $\P = \NP$, a polynomial time algorithm exists that produces a satisfying assignment when given a satisfiable Boolean formula. (Hint: Use the satisfiability tester repeatedly to find the assignment bit-by-bit.)
+% \end{homeworkProblem}
+
+% \begin{homeworkProblem}
+% (Optional)
+% \begin{enumerate}[(a)]
+%     \item Explain why the following argument fails to show that $\textit{MIN-FORMULA} \in \mathrm{coNP}$:
+%     \begin{enumerate}[i.]
+%         \item If $\phi \notin \textit{MIN-FORMULA}$, then $\phi$ has a smaller equivalent formula.
+%         \item An $\mathsf{NTM}$ can verify that $\phi \in \overline{\textit{MIN-FORMULA}}$ by guessing that formula.
+%     \end{enumerate}
+%     \item Show (despite part a) that if $\P = \NP$, then $\textit{MIN-FORMULA} \in \P$.
+% \end{enumerate}
+% \end{homeworkProblem}
+
+\end{document}
