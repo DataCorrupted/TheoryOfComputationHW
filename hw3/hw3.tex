@@ -104,8 +104,12 @@ Let $\textit{SHUFFLE} = \{ \langle w, x, y \rangle \mid w = a_1 b_1 \dotso a_k b
 \end{enumerate}
 \end{homeworkProblem}
 \begin{solution}
+    Since $\NP \subset \P$, simply proofing that $\textit{SHUFFLE} \in \P$ is suffice.
+    Below, we would proof that $\textit{SHUFFLE} \in \P$.
 
-\end{solution}
+\begin{proof}
+
+\end{proof}\end{solution}
 
 \begin{homeworkProblem}
 Let $\textit{SET-SPLITTING} = \{ \langle S, C \rangle \mid S$ is a finite set and $C = \{ C_1, \dotsc, C_k \}$ is a collection of subsets of $S$, where the elements of $S$ can be colored red or blue so every $C_i$ has at least one red element and at least one blue element$ \}$. Show that $\textit{SET-SPLITTING}$ is $\NP$-complete.
@@ -137,13 +141,24 @@ Let $\textit{SET-SPLITTING} = \{ \langle S, C \rangle \mid S$ is a finite set an
 % (Optional) Let $\textit{MODEXP} = \{ \langle a, b, c, p \rangle \mid a, b, c, p$ are positive binary integers such that $a^b \equiv c \pmod{p} \}$. Show that $\textit{MODEXP} \in \P$.
 % \end{homeworkProblem}
 
-% \begin{homeworkProblem}
-% (Optional) Show that if $\P = \NP$, then every language $A \in \P$, except $A = \emptyset$ and $A = \Sigma^*$, is $\NP$-complete.
-% \end{homeworkProblem}
+\begin{homeworkProblem}
+(Optional) Show that if $\P = \NP$, then every language $A \in \P$, except $A = \emptyset$ and $A = \Sigma^*$, is $\NP$-complete.
+\end{homeworkProblem}
+\begin{solution}\begin{proof}
+    $\forall A \in \P$, it can be solved with answer $a$ in polynomial time.
+    Then $\forall B$, we can decide the input for $A$ based on the output of $B$.
+    If $B$ returns false, feed $A$ with any input except $a$, else feed in $a$.
+    This way, we reduced $B$ to $A$ in polynomial time since $A, B \in \P$ because $\P = \NP$.
+    Now again, since $\P = \NP$, $A \in \NP$, and with a polynomial reduction, we can claim that $\forall A \in P$, $A$ is $\NP$-complete.
+\end{proof}\end{solution}
 
-% \begin{homeworkProblem}
-% (Optional) Show that if $\P = \NP$, a polynomial time algorithm exists that produces a satisfying assignment when given a satisfiable Boolean formula. (Hint: Use the satisfiability tester repeatedly to find the assignment bit-by-bit.)
-% \end{homeworkProblem}
+%\begin{homeworkProblem}
+%(Optional) Show that if $\P = \NP$, a polynomial time algorithm exists that produces a satisfying assignment when given a satisfiable Boolean formula. (Hint: Use the satisfiability tester repeatedly to find the assignment bit-by-bit.)
+%\end{homeworkProblem}
+%\begin{solution}
+
+\end{solution}
+
 
 % \begin{homeworkProblem}
 % (Optional)
