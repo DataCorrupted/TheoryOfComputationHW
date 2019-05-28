@@ -92,6 +92,9 @@ I worked with: (Name, ID), (Name, ID), \ldots
 \begin{homeworkProblem}
 The \textbf{\emph{Kolmogorov complexity}} of a bit string $b$, $K_L(b)$, is the length of the shortest program in language $L$ that outputs $b$ and only $b$. Is $K_L(b)$ computable? Prove your answer.
 \end{homeworkProblem}
+\begin{solution}
+    
+\end{solution}
 
 \begin{homeworkProblem}
 Let $\textit{SHUFFLE} = \{ \langle w, x, y \rangle \mid w = a_1 b_1 \dotso a_k b_k$ for $k \ge 0$ where $x = a_1 a_2 \dotso a_k$ and $y = b_1 b_2 \dotso b_k$, each $a_i, b_i \in \Sigma^* \}$.
@@ -100,10 +103,35 @@ Let $\textit{SHUFFLE} = \{ \langle w, x, y \rangle \mid w = a_1 b_1 \dotso a_k b
     \item Show that $\textit{SHUFFLE} \in \P$.
 \end{enumerate}
 \end{homeworkProblem}
+\begin{solution}
+
+\end{solution}
 
 \begin{homeworkProblem}
 Let $\textit{SET-SPLITTING} = \{ \langle S, C \rangle \mid S$ is a finite set and $C = \{ C_1, \dotsc, C_k \}$ is a collection of subsets of $S$, where the elements of $S$ can be colored red or blue so every $C_i$ has at least one red element and at least one blue element$ \}$. Show that $\textit{SET-SPLITTING}$ is $\NP$-complete.
 \end{homeworkProblem}
+
+\begin{solution}\begin{proof}
+    We will proof that $\textit{SET-SPLITTING}$ is $\NP$-complete by reduce it to SAT.
+
+    Suppose $S = \{s_1, s_2, \cdots, s_n\}$, we construct a boolean variable with $x_1, x_2, \cdots, x_n$, where $x_k$ is true if $s_k$ is colored blue and false if red.
+
+    Then for each $C_k = \{s_{c_{k_1}}, s_{c_{k_2}}, \cdots, s_{c_{k_m}}\}$, we can construct a clause: $$\phi_{k_{Red}} = (x_{c_{k_1}} \lor x_{c_{k_2}} \lor \cdots \lor x_{c_{k_m}})$$
+    $$\phi_{k_{Blue}} = (\overline{x_{c_{k_1}}} \lor \overline{x_{c_{k_2}}}, \lor \cdots \overline{x_{c_{k_m}}})$$
+    $$\phi_k = \phi_{k_{Red}} \wedge \phi_{k_{Blue}}$$
+
+    Finally we have a boolean expression: $$\phi = \phi_1 \wedge \phi_2 \wedge \cdots \wedge \phi_n$$.
+    This reduction can happen in polynomial time.
+    Now we are going to proof that $\textit{SET-SPLITTING} \Leftrightarrow \textit{SAT}$ using $\phi$.
+    
+    $\leftarrow$: If $\textit{SET-SPLITTING}$ is satisfied, $\forall k, \exists p, q$ such that $s_{c_{k_p}} \in C_k$ is red and  $s_{c_{k_q}} \in C_k$ is blue, meaning that $x_{c_{k_p}}$ is true and $x_{c_{k_q}}$ is false, $\overline{x_{c_{k_q}}}$ is true.
+
+    Thus, $\forall k, \phi_{k_{Red}}$ and $\phi_{k_{Blue}}$ eva`luates to true, therefore $\phi$ evaluates to true. Using the value of $x_1, x_2, \cdots, x_n$, $\textit{SAT}$ problem can be solved.
+
+    $\rightarrow$: Likewise, since $x_k$ and the color of $s_k$ is corresponded, if $\textit{SAT}$ is solved, using the value of the $x_k$ can tell us how to color $s_k$ and solve $\textit{SET\_SPLITTING}$.
+
+    In the end, since we can reduce $\textit{SET\_SPLITTING}$ to $\textit{SAT}$ in polynomial time, $\textit{SAT}$ is $\NP$-complete, it is safe to claim that $\textit{SET\_SPLITTING}$ is $\NP$-complete too.
+\end{proof}\end{solution}
 
 % \begin{homeworkProblem}
 % (Optional) Let $\textit{MODEXP} = \{ \langle a, b, c, p \rangle \mid a, b, c, p$ are positive binary integers such that $a^b \equiv c \pmod{p} \}$. Show that $\textit{MODEXP} \in \P$.

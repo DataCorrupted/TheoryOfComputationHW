@@ -1,3 +1,6 @@
 *hw*.pdf
 *.log
 *.aux
+*.fdb_latexmk
+*3.fls
+*.synctex.gz
