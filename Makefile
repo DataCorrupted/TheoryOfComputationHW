@@ -9,7 +9,7 @@ endif
 all : $(patsubst %,%.pdf,$(TARGET)) clean open
 
 clean :
-	for i in aux log bbl blg bcf out run.xml; do \
+	for i in aux log bbl blg bcf out run.xml fdb_latexmk fls; do \
 		rm -f $(patsubst %,%.$$i,$(TARGET)); \
 	done
 	-rm -f *~

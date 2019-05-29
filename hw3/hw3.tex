@@ -105,11 +105,59 @@ Let $\textit{SHUFFLE} = \{ \langle w, x, y \rangle \mid w = a_1 b_1 \dotso a_k b
 \end{homeworkProblem}
 \begin{solution}
     Since $\NP \subset \P$, simply proofing that $\textit{SHUFFLE} \in \P$ is suffice.
+    However, to prevent a failed attempt in proving $\textit{SHUFFLE} \in \P$, I will start with $\textit{SHUFFLE} \in \NP$
+
+    \begin{proof}
+        Given $\langle w, x, y \rangle \mid w = a_1 b_1 \dotso a_k b_k$ for $k \ge 0$ where $x = a_1 a_2 \dotso a_k$ and $y = b_1 b_2 \dotso b_k$
+        We can always compare whether $w$ is composed of the interleaving of $x$ and $y$ since the partition of $x$ and $y$ is given.
+        What's more, the comparasion can be done in linear time, and thus $\textit{SHUFFLE} \in \NP$
+    \end{proof}
+
     Below, we would proof that $\textit{SHUFFLE} \in \P$.
 
-\begin{proof}
+    \begin{proof}
+        We would solve this by Dynamic Programming(DP).
+        Consider function $f(i, j, p, q) \subset {true, false}$ who stands for the subproblem of $\textit{SHUFFLE}$ and it can be detailed using the following:
 
-\end{proof}\end{solution}
+        \emph{
+            $f(i, j, p, q)$ is true means that $w[1:i+j]$ can be constructed using $x[1:i]$ and $y[1:j]$ using $p$ and $q$ partitions, respectively.(Let's forget about python's rule of slicing and pretent $w[i:j]$ means sub-string from char $i$ to char $j$, including both and start counting from 1.)
+        }
+        Then we have the following transition relation:
+        \begin{align}
+            f(i, j, p, q) = 
+            & ((p == q+1) \wedge f(i-1, j, p, q)   \wedge (w[i+j] == x[i])) \lor \\
+            & ((p == q)   \wedge f(i, j-1, p, q)   \wedge (w[i+j] == y[j])) \lor \\
+            & ((p == q+1) \wedge f(i-1, j, p-1, q) \wedge (w[i+j] == x[i])) \lor \\
+            & ((p == q)   \wedge f(i, j-1, p, q-1) \wedge (w[i+j] == y[j])) 
+        \end{align}
+        \begin{align}
+            & f(1, 1, 1, 1) = (w[1] == x[1] \wedge w[2] == y[1]) \\
+            & \forall p > q + 2, \forall p < q, f(*, *, p, q) = false; \\
+            & f(i, 0, 1, 0) = (w[1:i] == x[1:i]) \\
+            & f(0, j, 0, 1) = (w[1:j] == y[1:j]) 
+        \end{align}
+
+        Let's have these equations explained:
+        \begin{enumerate}[(1)]
+            \item $x$ has one more partition than $y$ and the last char of $w$ and corresponding char in $x$ is the same.
+            \item $x$ and $y$ have the same amount of partitions and therefore the last char can only be compared between $w$ and $y$
+            \item This equation along with the next one deals with the case when we run into a new char we also decide to create a new partition. In this case, the newly created partition belongs to $x$ so $x$ has one more partition, so we are comparing with $x$.
+            \item In this case we created a $y$'s partition, and we are comparing with $y$.
+            \item The following 4 cases deals with initial values of $f$. $w$ can start with 2 chars with 2 partition, then the case is simple, one for $x$ and  one for $y$.
+            \item This equation deals with boundaries. You cannot solve this problem with in-equal partitions for $x$ and $y$. ($p = q+1$ is allowed in the middle.)
+            \item Finally we have two initial cases: the prefix of $w$ is the same as $x$
+            \item or with $y$
+        \end{enumerate}
+        Then we can calculate the function $f$ and construct the following algorithm:
+        \begin{enumerate}
+            \item get length of $x$ and $y$, suppose they are $n$ and $m$ respectively, suppose $t = min(n, m)$.
+            \item calculate $f(n, m, 1, 1), f(n, m, 2, 2), \cdots f(n, m, t, t)$. We are not sure how much partitions are there, but they must not exceed $t$, or else there will be noting in the shorter string to partition.
+            \item return $f(n, m, 1, 1) \lor f(n, m, 2, 2) \lor \cdots \lor f(n, m, t, t)$
+        \end{enumerate}
+        Using this algorithm we can assert that the time complexity is $O(nmt^2), where t = min(n, m)$, which is polynomial.
+        Therefore $\textit{SHUFFLE} \in \P$.
+    \end{proof}
+\end{solution}
 
 \begin{homeworkProblem}
 Let $\textit{SET-SPLITTING} = \{ \langle S, C \rangle \mid S$ is a finite set and $C = \{ C_1, \dotsc, C_k \}$ is a collection of subsets of $S$, where the elements of $S$ can be colored red or blue so every $C_i$ has at least one red element and at least one blue element$ \}$. Show that $\textit{SET-SPLITTING}$ is $\NP$-complete.
@@ -137,9 +185,9 @@ Let $\textit{SET-SPLITTING} = \{ \langle S, C \rangle \mid S$ is a finite set an
     In the end, since we can reduce $\textit{SET\_SPLITTING}$ to $\textit{SAT}$ in polynomial time, $\textit{SAT}$ is $\NP$-complete, it is safe to claim that $\textit{SET\_SPLITTING}$ is $\NP$-complete too.
 \end{proof}\end{solution}
 
-% \begin{homeworkProblem}
-% (Optional) Let $\textit{MODEXP} = \{ \langle a, b, c, p \rangle \mid a, b, c, p$ are positive binary integers such that $a^b \equiv c \pmod{p} \}$. Show that $\textit{MODEXP} \in \P$.
-% \end{homeworkProblem}
+\begin{homeworkProblem}
+(Optional) Let $\textit{MODEXP} = \{ \langle a, b, c, p \rangle \mid a, b, c, p$ are positive binary integers such that $a^b \equiv c \pmod{p} \}$. Show that $\textit{MODEXP} \in \P$.
+\end{homeworkProblem}
 
 \begin{homeworkProblem}
 (Optional) Show that if $\P = \NP$, then every language $A \in \P$, except $A = \emptyset$ and $A = \Sigma^*$, is $\NP$-complete.
@@ -152,24 +200,20 @@ Let $\textit{SET-SPLITTING} = \{ \langle S, C \rangle \mid S$ is a finite set an
     Now again, since $\P = \NP$, $A \in \NP$, and with a polynomial reduction, we can claim that $\forall A \in P$, $A$ is $\NP$-complete.
 \end{proof}\end{solution}
 
-%\begin{homeworkProblem}
-%(Optional) Show that if $\P = \NP$, a polynomial time algorithm exists that produces a satisfying assignment when given a satisfiable Boolean formula. (Hint: Use the satisfiability tester repeatedly to find the assignment bit-by-bit.)
-%\end{homeworkProblem}
-%\begin{solution}
+\begin{homeworkProblem}
+(Optional) Show that if $\P = \NP$, a polynomial time algorithm exists that produces a satisfying assignment when given a satisfiable Boolean formula. (Hint: Use the satisfiability tester repeatedly to find the assignment bit-by-bit.)
+\end{homeworkProblem}
 
-\end{solution}
-
-
-% \begin{homeworkProblem}
-% (Optional)
-% \begin{enumerate}[(a)]
-%     \item Explain why the following argument fails to show that $\textit{MIN-FORMULA} \in \mathrm{coNP}$:
-%     \begin{enumerate}[i.]
-%         \item If $\phi \notin \textit{MIN-FORMULA}$, then $\phi$ has a smaller equivalent formula.
-%         \item An $\mathsf{NTM}$ can verify that $\phi \in \overline{\textit{MIN-FORMULA}}$ by guessing that formula.
-%     \end{enumerate}
-%     \item Show (despite part a) that if $\P = \NP$, then $\textit{MIN-FORMULA} \in \P$.
-% \end{enumerate}
-% \end{homeworkProblem}
+\begin{homeworkProblem}
+(Optional)
+\begin{enumerate}[(a)]
+    \item Explain why the following argument fails to show that $\textit{MIN-FORMULA} \in \mathrm{coNP}$:
+    \begin{enumerate}[i.]
+        \item If $\phi \notin \textit{MIN-FORMULA}$, then $\phi$ has a smaller equivalent formula.
+        \item An $\mathsf{NTM}$ can verify that $\phi \in \overline{\textit{MIN-FORMULA}}$ by guessing that formula.
+    \end{enumerate}
+    \item Show (despite part a) that if $\P = \NP$, then $\textit{MIN-FORMULA} \in \P$.
+\end{enumerate}
+\end{homeworkProblem}
 
 \end{document}
