@@ -93,7 +93,24 @@ I worked with: (Name, ID), (Name, ID), \ldots
 The \textbf{\emph{Kolmogorov complexity}} of a bit string $b$, $K_L(b)$, is the length of the shortest program in language $L$ that outputs $b$ and only $b$. Is $K_L(b)$ computable? Prove your answer.
 \end{homeworkProblem}
 \begin{solution}
-    
+    It's not a computable.
+    \begin{proof}
+        Suppose we have $K_L(b)$ computable and there exitts a program $Q(x)$ whose output is $K_L(x)$. 
+        It is safe to claim that $|\langle Q(x) \rangle| = c_1$ where $c_1$ is a constant.
+
+        Now let's construct a Machine $P$ on input $n$:
+        \begin{enumerate}
+            \item for $x \in \{0, 1\}^n$
+            \item If $x$ is the first string with $K_L(b) \ge n$, verify it with $Q(x)$. If true, output $x$ and return.
+        \end{enumerate}
+
+        Then we have a contradiction:
+        
+        Denote the output of $P(n)$ being $x_n$, then $K_L(x_n) \ge n$.
+        However, $K_L(x_n) \le c_1 + c + \log_n + 1$, given that the description of $P(n)$ is $c + \log_n +1$ using constant space and $\log_n+1$ space for encoding n.
+
+        Therefore, it is not computable.
+    \end{proof}
 \end{solution}
 
 \begin{homeworkProblem}
