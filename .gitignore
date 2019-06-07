@@ -2,5 +2,6 @@
 *.log
 *.aux
 *.fdb_latexmk
-*3.fls
+*.fls
 *.synctex.gz
+!solution.pdf
