@@ -104,7 +104,21 @@ I worked with: (Name, ID), (Name, ID), \ldots
     \end{proof}
 
     \item \begin{proof}
-    
+        We begin by prooving that $E_\textsf{DFA} \in $ NL.
+        M on input $\langle A \rangle$:
+        \begin{enumerate}
+            \item Place the start node $s$ in the workspace
+            \item Repeat the following at most $|Q|$ steps:
+            \begin{enumerate}
+                \item Nondeterministically chooses a next node n
+                \item Replace current node on the tape with n.
+            \end{enumerate}
+            \item if terminal state is reached, accept; else reject.
+        \end{enumerate}
+        Then only $O(log |Q|)$ space is used to store the number of the steps on the tape, $E_\textsf{DFA} \in $ NL.
+
+        Now let's reduce  $E_\textsf{DFA}$ to $PATH$ in polynomial time.
+            
     \end{proof}
 \end{enumerate}\end{solution}
 
@@ -112,7 +126,45 @@ I worked with: (Name, ID), (Name, ID), \ldots
 Describe a deterministic, polynomial-time \textit{SAT}-oracle Turing machine $M^\textit{SAT}$ that takes as input a directed graph $G$ and nodes $s$ and $t$, and outputs a Hamiltonian path from $s$ to $t$ if one exists. If none exist, then $M^\textit{SAT}$ outputs \textbf{No Hamiltonian path}.
 \end{homeworkProblem}
 \begin{solution}
+    We reduce SAT problem to Hamiltonian path, then use the oracle to tell the answer and convert it back to our path problem. If the SAT cannot be satisfied, then there is no such path.
 
+    For each edge, label it with $e_{ij}$, standing for an edge from vertex $i$ to vertex $j$.
+    In our SAT, each edge stands for a variable, therefore we have $x_{ij}$, it is true if we take edge $e_{ij}$ in our path.
+    Now for each vertex, call it vertex $k$.
+    
+    Suppose $k$ has $p$ outward edges $e_{ko_1}, e_{ko_2}, \cdots e_{ko_p}$ write the following:
+    $$ 
+        \phi_{out}(k) = (x_{ko_1} \wedge \overline{x_{ko_2}} \wedge \cdots \wedge \overline{x_{ko_p}}) 
+                \lor (x_{ko_2} \wedge \overline{x_{ko_1}} \wedge \cdots \wedge \overline{x_{ko_p}})
+                \lor \cdots 
+                \lor (x_{ko_p} \wedge \overline{x_{ko_1}} \wedge \cdots \wedge \overline{x_{ko_{p-1}}})
+    $$
+
+    Suppose $k$ has $q$ inward edges $e_{ki_1}, e_{ki_2}, \cdots e_{ki_q}$ write the following:    
+    $$ 
+        \phi_{in}(k) = (x_{ki_1} \wedge \overline{x_{ki_2}} \wedge \cdots \wedge \overline{x_{ki_q}}) 
+                \lor (x_{ki_2} \wedge \overline{x_{ki_1}} \wedge \cdots \wedge \overline{x_{ki_q}})
+                \lor \cdots 
+                \lor (x_{ki_p} \wedge \overline{x_{ki_1}} \wedge \cdots \wedge \overline{x_{ki_{q-1}}}) 
+    $$
+    $$  \phi(k) = \phi_{in}(k) \wedge \phi_{out}(k) $$
+            
+    Explained: $\phi_{in}(k)$ guarantees that vertex k has only one edge in, $\phi_{out}(k)$ guarantees that there is only one edge out.
+
+    Label every vertex except $s$ and $t$ from $1$ to $n$, then solving 
+        $\phi = \phi_{out}(s) \wedge \phi_{in}(t) \wedge \phi(1) \wedge \phi(2) \wedge \cdots \wedge \phi(n) $
+
+    \textbf{Proof} that an answer to $\phi$ solves Hamiltonian Path:
+    Since $x_{ij}$ means we take $e_{ij}$ and for each vertex $k$, $\phi(k)$ being true guarantees that vertex has one and only one edge in and out.
+    $s$ only needs out edge and $t$ only nees in edge.
+    That means using $x_{ij}$ we can construct a path from $s$ to $t$ that covers every other node.
+
+    Construct a $\TM$ on input:
+    \begin{enumerate}
+        \item Run oracle on input $\phi$ as described above to solve SAT problem.
+        \item If oracle returns false, that $\phi$ is not satisfiable, output \textbf{No Hamiltonian path} and reject.
+        \item Or else according to the answer to generate a path and accept.
+    \end{enumerate}
 \end{solution}
 
 \begin{homeworkProblem}
@@ -171,6 +223,23 @@ Say that a probabilistic algorithm \textbf{\emph{uses randomness r(n)}} if it us
     \item Let $\mathit{ALL}_\mathsf{BP} = \{ \langle B \rangle \mid B$ is a branching program and $B(w) = 1$ on all $w\}$. Show that $\mathit{ALL}_\mathsf{BP}$ is coNP-complete.
 \end{enumerate}
 \end{homeworkProblem}
+\begin{solution}\begin{enumerate}
+\item \begin{proof}
+    Construct a $\TM$ M:
+    \begin{enumerate}
+        \item for i = 1..m
+        \begin{enumerate}
+            \item set $w_i$ to 1 and see if $B(w)$ can evaluate to true.
+            \item set $w_i$ to 0 and see if $B(w)$ can evaluate to true.
+            \item The two test above must happen withnot any knowledge of other variables. For example, using short circuit evaluation, we can know $x | y$ is true if x is true, regardless of y's value.
+            \item If one test fails, reject.
+        \end{enumerate}
+        \item accept.
+    \end{enumerate}
+\end{proof}
+\item \begin{proof}
+\end{proof}
+\end{enumerate}\end{solution}
 
 \begin{homeworkProblem}
 (Optional) Prove that if $A \subseteq \{\mathsf{0}, \mathsf{1}\}^*$ is a regular language, a family of branching programs $(B_1, B_2, \dotsc)$ exists where each $B_n$ accepts exactly the strings in $A$ of length $n$ and is bounded in size by a constant times $n$.
