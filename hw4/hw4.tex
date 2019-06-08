@@ -101,6 +101,14 @@ I worked with: (Name, ID), (Name, ID), \ldots
     \item \begin{proof}
         It is trivial that $A_\textsf{LBA} \in$ PSPACE since it's linear bounded.
 
+        Now let's reduce every language in PSPACE to $A_\textsf{LBA}$.
+        
+        Suppose $A \in $ PSPACE, $\exists \TM$ M that accepts $\forall w \in A$ in $O(w^k)$.
+        
+        Then we feed $\langle M, w1^{|w|^k} \rangle$ into $A_\textsf{LBA}$, which should behave the same as $w$ fed to M.
+
+        Then we reduced every problem in PSPACE to $A_\textsf{LBA}$ , therefore it is PSPACE-complete.
+
     \end{proof}
 
     \item \begin{proof}
@@ -118,7 +126,10 @@ I worked with: (Name, ID), (Name, ID), \ldots
         Then only $O(log |Q|)$ space is used to store the number of the steps on the tape, $E_\textsf{DFA} \in $ NL.
 
         Now let's reduce  $E_\textsf{DFA}$ to $PATH$ in polynomial time.
-            
+        
+        If there is $PATH$ returns true, we can set the $s$ to starting state and $t$ to accepting state and therefore know $E_\textsf{DFA}$. Such reduction is polynomial time.
+
+        Sice $PATH$ is NL-complete, $E_\textsf{DFA}$ is NL-complete too.
     \end{proof}
 \end{enumerate}\end{solution}
 
@@ -175,7 +186,7 @@ Say that a probabilistic algorithm \textbf{\emph{uses randomness r(n)}} if it us
 \end{enumerate}
 \end{homeworkProblem}
 \begin{solution}\begin{enumerate}[label=(\alph*)]
-    \item $r(m) = O(2^m)$
+    \item $r(m) = O(mlog(m))$. There are m nodes to random value, $3m$ values to pick from, each pick taks $log(m)$ time(binary encoding)
     \item \begin{proof}
         We are going to proof this by \emph{hack} the random function and make it a deterministic one yet still solve our problem.
 
