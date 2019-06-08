@@ -6,6 +6,7 @@
 \usepackage{amsthm}
 \usepackage{tikz}
 \usepackage{enumitem}
+\usepackage{comment}
 
 \usetikzlibrary{automata, positioning}
 
@@ -65,6 +66,10 @@
 \newcommand{\hmwkAuthorName}{Yuyang Rong}
 \newcommand{\hmwkAuthorID}{69850764}
 
+
+\newcommand{\TM}{\mathsf{TM}}
+
+
 \title{
     \vspace{-0.4in}
     \textmd{\textbf{\hmwkClass \\ Homework \hmwkNo}}\\
@@ -92,10 +97,23 @@ I worked with: (Name, ID), (Name, ID), \ldots
     \item Show that $E_\textsf{DFA} = \{ \langle A \rangle \mid A$ is a \textsf{DFA} and $L(A) = \emptyset \}$ is NL-complete.
 \end{enumerate}
 \end{homeworkProblem}
+\begin{solution}\begin{enumerate}[label=(\alph*)]
+    \item \begin{proof}
+        It is trivial that $A_\textsf{LBA} \in$ PSPACE since it's linear bounded.
+
+    \end{proof}
+
+    \item \begin{proof}
+    
+    \end{proof}
+\end{enumerate}\end{solution}
 
 \begin{homeworkProblem}
 Describe a deterministic, polynomial-time \textit{SAT}-oracle Turing machine $M^\textit{SAT}$ that takes as input a directed graph $G$ and nodes $s$ and $t$, and outputs a Hamiltonian path from $s$ to $t$ if one exists. If none exist, then $M^\textit{SAT}$ outputs \textbf{No Hamiltonian path}.
 \end{homeworkProblem}
+\begin{solution}
+
+\end{solution}
 
 \begin{homeworkProblem}
 Say that a probabilistic algorithm \textbf{\emph{uses randomness r(n)}} if it uses at most $r(n)$ coin tosses on each computation thread.
@@ -104,6 +122,30 @@ Say that a probabilistic algorithm \textbf{\emph{uses randomness r(n)}} if it us
     \item Let $\mathrm{BPP}[f(n)] = \{A \mid A$ is decided by a probabilistic, polynomial time \textsf{TM} that uses at most $O(f(n))$ randomness on all inputs of length $n\}$. Show that $\mathrm{BPP}[\log(n)] \subseteq \mathrm{P}$.
 \end{enumerate}
 \end{homeworkProblem}
+\begin{solution}\begin{enumerate}[label=(\alph*)]
+    \item $r(m) = O(2^m)$
+    \item \begin{proof}
+        We are going to proof this by \emph{hack} the random function and make it a deterministic one yet still solve our problem.
+
+        $\forall a \in BPP[log(n)], \exists M_a$ that uses at most $O(log(n))$ randomness.
+        Construct the following $\TM$ M:
+        \begin{enumerate}
+            \item For i = 0 .. n repeat the following:
+            \item \begin{enumerate}
+                \item Use $i$'s binary form to decide the output of a random function. If k-th binary of $i$ is 0 then random function deterministicly outputs 0 on k-th coin toss, or else it outputs 1.
+                \item Run $M_a$ on input $a$ with out \emph{hacked} random function.
+                \item If $M_a$ accepts, accept, else continue;
+            \end{enumerate}
+            \item reject
+        \end{enumerate}
+        
+        Proof that our construction works:
+
+        Since $M_a$ that uses at most $O(log(n))$ randomness, there are at most $n$ out comes for $log(n)$ coin flits, in $M$, all these possible out comes have been tried to decide if $M_a$ accepts. Therefore our new $\TM$ still reflects $M_a$'s behavior.
+
+        Since $M_a$ runs in polynomial time, we repeated it $n$ times, so $M$ still runs in polynomial time.
+    \end{proof}
+\end{enumerate}\end{solution}
 
 \begin{homeworkProblem}
 (Optional) For any positive integer $x$, let $x^\mathcal{R}$ be the integer whose binary representation is the reverse of the binary representation of $x$. (Assume no leading $\mathsf{0}$s in the binary representation of $x$.) Define the function $\mathcal{R}^+ : \mathcal{N} \rightarrow \mathcal{N}$ where $\mathcal{R}^+(x) = x + x^\mathcal{R}$.
@@ -112,6 +154,15 @@ Say that a probabilistic algorithm \textbf{\emph{uses randomness r(n)}} if it us
     \item Let $A_3 = \{ \langle x, y \rangle \mid \mathcal{R}^+(\mathcal{R}^+(x)) = y \}$. Show $A_3 \in \mathrm{L}$.
 \end{enumerate}
 \end{homeworkProblem}
+\begin{comment}
+\begin{solution}\begin{enumerate}
+\item  $\TM_{A_2}$ on input $\langle x, y \rangle$
+    \begin{enumerate}
+        \item 
+    \end{enumerate}
+\item 
+\end{enumerate}\end{solution}
+\end{comment}
 
 \begin{homeworkProblem}
 (Optional) For branching program $B$ and $w = w_1 \dotso w_m$, where each $w_i \in \{\mathsf{0}, \mathsf{1}\}$, let $B(w)$ be the output of $B$ when its input variables $x_1, \dotsc, x_m$ are set $x_i = w_i$ for each $i$.
